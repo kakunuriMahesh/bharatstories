@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Eng } from "../Utils/Elglish/EnglishScript";
+import StoriesList from "./StoriesList";
 
 const ViewContent = () => {
   const [story, setStory] = useState(null); // Set initial state to `null`
@@ -27,6 +28,15 @@ const ViewContent = () => {
   return story ? (
     <div>
       <img src={story.storyCoverImage} alt="" />
+      <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide">
+        {story.parts.card.map((eachPart, inded) => (
+          <StoriesList
+            key={eachPart.id}
+            eachPart={eachPart}
+            eachStory={story.name}
+          />
+        ))}
+      </div>
     </div>
   ) : (
     <p>loading...</p>

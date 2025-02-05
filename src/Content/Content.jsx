@@ -223,7 +223,7 @@
 // Third =======
 
 import React, { useEffect, useState, useRef } from "react";
-import { Home, Info, Phone } from "lucide-react";
+import { Home, Info, Phone, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Eng } from "../Utils/Elglish/EnglishScript";
 import StoriesList from "./StoriesList";
@@ -232,60 +232,14 @@ const Content = () => {
   console.log(Eng, "English");
   const navigate = useNavigate();
 
-  const sections = [
-    { name: "Home", icon: <Home size={32} />, path: "/" },
-    { name: "About", icon: <Info size={32} />, path: "/" },
-    { name: "Contact", icon: <Phone size={32} />, path: "/" },
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const iconRef = useRef(null);
-  let startY = useRef(null);
-
-  const handleIconClick = () => {
-    setDropdownOpen(!dropdownOpen);
+  const handleViewAll = (storyName) => {
+    console.log(storyName, ":viewAll");
+    navigate(`/:${storyName}`);
   };
-
-  const handleSelectIcon = (index) => {
-    setActiveIndex(index);
-    setDropdownOpen(false);
-    navigate(sections[index].path);
-  };
-
-  const handleDragStart = (e) => {
-    startY.current = e.touches ? e.touches[0].clientY : e.clientY;
-  };
-
-  const handleDragMove = (e) => {
-    if (!startY.current) return;
-
-    let currentY = e.touches ? e.touches[0].clientY : e.clientY;
-    let diffY = startY.current - currentY;
-
-    if (diffY > 30 && activeIndex < sections.length - 1) {
-      setActiveIndex((prev) => prev + 1);
-      navigate(sections[activeIndex + 1].path);
-      startY.current = null; // Reset to prevent continuous firing
-    } else if (diffY < -30 && activeIndex > 0) {
-      setActiveIndex((prev) => prev - 1);
-      navigate(sections[activeIndex - 1].path);
-      startY.current = null;
-    }
-  };
-
-  const handleDragEnd = () => {
-    startY.current = null;
-  };
-
-  const handleViewAll = (storyName) =>{
-    console.log(storyName, ":viewAll")
-    navigate(`/:${storyName}`)
-  }
 
   return (
     <div>
-      <nav className="sticky top-0 flex items-center md:justify-between p-6 bg-slate-400 shadow-lg h-[100px]">
+      {/* <nav className="sticky top-0 flex items-center md:justify-between p-6 bg-slate-400 shadow-lg h-[100px]">
         <h1 className="hidden md:flex font-bold text-[18px] md:text-[30px]">
           Bharat Stories
         </h1>
@@ -303,9 +257,9 @@ const Content = () => {
         <div className="md:hidden flex w-full items-center relative">
           <input
             placeholder="Bharat Stories"
-            className="text-center w-[100%] h-[60px] rounded-[30px]"
+            className="text-center px-[60px] w-[100%] h-[60px] rounded-[30px]"
           />
-          <div className="block md:hidden absolute right-[12px]">
+          <div className="block md:hidden absolute left-[12px]">
             <div
               ref={iconRef}
               className="w-[40px] h-[40px] p-1 border-2 shadow-2xl bg-white rounded-full flex items-center justify-center cursor-pointer transition-transform duration-300"
@@ -331,23 +285,30 @@ const Content = () => {
                         onClick={() => handleSelectIcon(index)}
                       >
                         {section.icon}
-                        {/* <span>{section.name}</span> */}
                       </div>
                     )
                 )}
               </div>
             )}
           </div>
+          <div className="absolute right-[12px]">
+            <Search />
+          </div>
         </div>
-      </nav>
+      </nav> */}
 
-      <div className="p-[30px]">
+      <div className="p-[30px] ">
         <h1>English</h1>
         {Eng?.stories.map((eachStory) => (
           <div key={eachStory?.id}>
             <div className="flex justify-between">
               <h2 className="text-[20px] font-bold">{eachStory?.name}</h2>
-              <button onClick={()=>handleViewAll(eachStory?.name)} className="underline cursor-pointer">View All</button>
+              <button
+                onClick={() => handleViewAll(eachStory?.name)}
+                className="underline cursor-pointer"
+              >
+                View All
+              </button>
             </div>
             <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide">
               {eachStory?.parts?.card.map((eachPart) => (
