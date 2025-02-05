@@ -31,6 +31,7 @@ import Layout from "../Content/Layout"; // ✅ Correct Layout path
 import Content from "../Content/Content";
 import DetailStory from "../Content/DetailStory";
 import ViewContent from "../Content/ViewContent";
+import SearchDetailStory from "../Content/SearchDetailStory";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <Content /> }, // ✅ Home inside Layout
       { path: "detailstory/:name/:id", element: <DetailStory /> },
+      { path: "/story/:title", element: <SearchDetailStory /> },
       { path: ":name", element: <ViewContent /> },
     ],
   },

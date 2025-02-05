@@ -27,7 +27,20 @@ const ViewContent = () => {
   console.log("Iam ready to view content:", name);
   return story ? (
     <div>
-      <img src={story.storyCoverImage} alt="" />
+      <div
+        className="relative lg:h-[55vh] md:h-[50vh] h-[35vh] w-full bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${story.storyCoverImage})` }}
+      >
+        <div className="relative bg-black opacity-[0.4] h-full w-full"></div>
+        <div className="absolute left-4 bottom-3 text-white">
+          <h1 className=" text-white opacity-[0.9] font-extrabold text-[30px] md:text-[50px]">
+            Story {name}
+          </h1>
+          <p>{story.parts.card.length} Parts</p>
+          <p className="text-[10px] font-semibold">ENG / TEL</p>
+        </div>
+      </div>
+      {/* <img className="md:h-[55vh] w-full" src={story.storyCoverImage} alt="" /> */}
       <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide">
         {story.parts.card.map((eachPart, inded) => (
           <StoriesList

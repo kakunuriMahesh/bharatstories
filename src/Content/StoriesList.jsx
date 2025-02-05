@@ -5,9 +5,9 @@ import SRC from "../assets/src.webp";
 const StoriesList = (props) => {
   const navigate = useNavigate();
 
-  console.log(props);
+  // console.log(props);
   const { eachPart, eachStory } = props;
-  console.log(eachPart, eachStory);
+  // console.log(eachPart, eachStory);
 
   const handleDetailStory = (eachStory, id) => {
     console.log(eachStory, id);
@@ -17,9 +17,9 @@ const StoriesList = (props) => {
   };
 
   return (
-    <div className="mt-[20px]">
+    <div className="my-[20px]">
       <div
-        className="w-[260px] h-[350px] border-2 rounded-[20px] cursor-pointer hover:duration-700 hover:scale-105"
+        className="w-[260px] h-[380px] border-2 rounded-[20px] cursor-pointer hover:duration-700 hover:scale-105"
         onClick={() => handleDetailStory(eachStory, eachPart?.id)}
         key={eachPart?.id}
       >

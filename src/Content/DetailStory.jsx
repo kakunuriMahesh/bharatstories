@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const DetailStory = () => {
   const [story, setStory] = useState(null); // Set initial state to `null`
   const { name, id } = useParams();
+  console.log(useParams(), "chech Detail page")
   const cleanName = name.startsWith(":") ? name.slice(1) : name;
   const cleanId = id.startsWith(":") ? id.slice(1) : id;
 
