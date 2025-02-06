@@ -42,6 +42,7 @@ const router = createBrowserRouter([
       { path: "detailstory/:name/:id", element: <DetailStory /> },
       { path: "/story/:title", element: <SearchDetailStory /> },
       { path: ":name", element: <ViewContent /> },
+      
     ],
   },
 ]);
