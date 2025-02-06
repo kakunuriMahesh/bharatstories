@@ -225,17 +225,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Home, Info, Phone, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Eng } from "../Utils/Elglish/EnglishScript";
+import { Eng } from "../Utils/Elglish/EnglishScript"; // get the content based on the local storage value "Eng" || "Tel"
+import { Tel } from "../Utils/Elglish/EnglishScript";
 import StoriesList from "./StoriesList";
 
 const Content = () => {
   console.log(Eng, "English");
+  const [localization, setLocalization] = useState("Eng");
+  console.log(localization)
   const navigate = useNavigate();
+
 
   const handleViewAll = (storyName) => {
     console.log(storyName, ":viewAll");
-    navigate(`/:${storyName}`);
+    navigate(`/viewstory/:${storyName}`);
   };
+
 
   return (
     <div>
@@ -297,8 +302,28 @@ const Content = () => {
         </div>
       </nav> */}
 
-      <div className="p-[30px] ">
-        <h1>English</h1>
+      <div className="mt-[10px]">
+        <div className="bg-slate-600 w-[60px] text-center border rounded-md text-white px-[5px] py-[3px] cursor-pointer">
+          {localization === "Eng" ? (
+            <h1
+              onClick={() => {
+                setLocalization(Tel);
+                // localStorage.setItem("localization", "Telugu");
+              }}
+            >
+              {Eng.language}
+            </h1>
+          ) : (
+            <h1
+              onClick={() => {
+                setLocalization("Eng");
+                // localStorage.setItem("localization", "English");
+              }}
+            >
+              Tel
+            </h1>
+          )}
+        </div>
         {Eng?.stories.map((eachStory) => (
           <div key={eachStory?.id}>
             <div className="flex justify-between">

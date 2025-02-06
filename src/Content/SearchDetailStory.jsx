@@ -31,7 +31,7 @@ const SearchDetailStory = () => {
     console.log(story);
   
     return (
-      <div>
+      <div className="">
         {story?.part ? (
           story.part.map((section) => (
             <div className="py-[10px]" key={section.id}>
@@ -43,10 +43,10 @@ const SearchDetailStory = () => {
                 <img
                   className="w-[700px] rounded-lg mb-[20px]"
                   src={section.image}
-                  alt="sectionimg"
+                  alt="image"
                 />
               </div>
-              <p className="text-justify">{section.text}</p>
+              <p className="text-justify">{section.text}</p> 
             </div>
           ))
         ) : (

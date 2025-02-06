@@ -16,11 +16,16 @@ const StoriesList = (props) => {
     console.log(`/detailstory/:${eachStory}/:${id}`, "detailStory");
   };
 
+  const handleSuggestionClick = (title) => {
+    navigate(`/detailstory/${encodeURIComponent(title)}`); // Navigate using title
+    
+  };
+
   return (
     <div className="my-[20px]">
       <div
         className="w-[260px] h-[380px] border-2 rounded-[20px] cursor-pointer hover:duration-700 hover:scale-105"
-        onClick={() => handleDetailStory(eachStory, eachPart?.id)}
+        onClick={() => handleSuggestionClick(eachPart?.title)}
         key={eachPart?.id}
       >
         <div className="h-full flex flex-col justify-between">
