@@ -40,13 +40,13 @@ const Layout = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
       {!isImagesLoaded ? (
         <p>Loading content...</p>
       ) : (
         <div>
           <Navbar />
-          <main className="min-h-screen pt-[100px] px-[20px] pb-[20px]">
+          <main className="min-h-screen pt-[100px]">
             <Outlet /> {/* ✅ This renders the child components */}
           </main>
           <Footer />

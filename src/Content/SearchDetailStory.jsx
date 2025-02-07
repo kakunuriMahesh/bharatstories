@@ -31,7 +31,7 @@ const SearchDetailStory = () => {
     console.log(story);
   
     return (
-      <div className="">
+      <div className=" px-[20px] pb-[20px]">
         {story?.part ? (
           story.part.map((section) => (
             <div className="py-[10px]" key={section.id}>

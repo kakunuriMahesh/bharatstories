@@ -22,16 +22,16 @@ const StoriesList = (props) => {
   };
 
   return (
-    <div className="my-[20px]">
+    <div className="my-[20px] ">
       <div
         className="w-[260px] h-[380px] border-2 rounded-[20px] cursor-pointer hover:duration-700 hover:scale-105"
         onClick={() => handleSuggestionClick(eachPart?.title)}
         key={eachPart?.id}
       >
-        <div className="h-full flex flex-col justify-between">
+        <div className="h-[300px] flex flex-col justify-between">
           <div>
             <img
-              className="w-full h-[200px] rounded-tr-[20px] rounded-tl-[20px]"
+              className="w-full h-[150px] object-cover rounded-tr-[20px] rounded-tl-[20px]"
               src={eachPart?.coverImage ? eachPart?.coverImage : SRC}
               alt="img"
             />

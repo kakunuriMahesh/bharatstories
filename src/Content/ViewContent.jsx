@@ -41,14 +41,16 @@ const ViewContent = () => {
         </div>
       </div>
       {/* <img className="md:h-[55vh] w-full" src={story.storyCoverImage} alt="" /> */}
-      <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide">
-        {story.parts.card.map((eachPart, inded) => (
-          <StoriesList
-            key={eachPart.id}
-            eachPart={eachPart}
-            eachStory={story.name}
-          />
-        ))}
+      <div className=" px-[20px] pb-[20px] font-sans">
+        <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide ">
+          {story.parts.card.map((eachPart, inded) => (
+            <StoriesList
+              key={eachPart.id}
+              eachPart={eachPart}
+              eachStory={story.name}
+            />
+          ))}
+        </div>
       </div>
     </div>
   ) : (

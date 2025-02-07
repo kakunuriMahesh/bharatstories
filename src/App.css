@@ -1,12 +1,24 @@
 /* Hide scrollbar but allow scrolling */
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-  /*end  */
+  display: none;
+}
 
-  
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/*end  */
+
+* {
+  font-weight: semi-bold;
+  border: none;
+}
+/* input {
+  background: black !important;
+  outline:2px solid gray;
+  color: #fff !important;
+  border: none;
+}
+input::placeholder {
+  color: #fff !important;
+} */
