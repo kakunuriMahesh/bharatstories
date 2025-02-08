@@ -43,7 +43,7 @@ const ViewContent = () => {
       {/* <img className="md:h-[55vh] w-full" src={story.storyCoverImage} alt="" /> */}
       <div className=" px-[20px] pb-[20px] font-sans">
         <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide ">
-          {story.parts.card.map((eachPart, inded) => (
+          {story.parts.card.map((eachPart, index) => (
             <StoriesList
               key={eachPart.id}
               eachPart={eachPart}

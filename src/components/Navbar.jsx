@@ -120,7 +120,7 @@ const Navbar = () => {
       <nav
         className={`z-30 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
-        } transition-transform duration-300 fixed md:text-white w-full flex items-center md:justify-between p-6 dark:bg-NavFooter-dark bg-NavFooter-light shadow-lg h-[100px]`}
+        } transition-transform duration-300 fixed md:text-white w-full flex items-center md:justify-between p-6 bg-slate-200 dark:bg-slate-800 shadow-lg h-[100px]`}
       >
         <h1
           onClick={() => {

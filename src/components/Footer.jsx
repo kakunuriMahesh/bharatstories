@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className="p-[30px] dark:text-text-dark text-text-light bg-text-dark dark:bg-[#000]">
+    <div className="p-[30px] dark:text-text-dark text-text-light bg-slate-200 dark:bg-slate-800">
         <div className="flex md:flex-row md:items-start md:gap-[20px] flex-col items-center gap-3">
             <div className='flex flex-col md:items-start items-center'>
                 <h2 className='font-bold'>Stories</h2>

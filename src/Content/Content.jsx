@@ -108,7 +108,7 @@ const Content = () => {
         </button> */}
         {Eng?.stories.map((eachStory) => (
           <div key={eachStory?.id}>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-[10px]">
               <h2 className="text-[20px] font-bold">{eachStory?.name}</h2>
               <button
                 onClick={() => handleViewAll(eachStory?.name)}
@@ -117,7 +117,7 @@ const Content = () => {
                 View All
               </button>
             </div>
-            <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide">
+            <div className="mt-[10px] overflow-x-scroll flex gap-2 scrollbar-hide ">
               {eachStory?.parts?.card.map((eachPart) => (
                 <StoriesList
                   key={eachPart.id}
