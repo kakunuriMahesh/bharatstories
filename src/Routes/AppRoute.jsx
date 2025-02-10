@@ -6,7 +6,8 @@ import ViewContent from "../Content/ViewContent";
 import SearchDetailStory from "../Content/SearchDetailStory";
 import NotFound from "../components/NotFound";
 import About from "../Pages/About";
-import { Contact } from "lucide-react";
+// import { Contact } from "lucide-react";
+import Contact from "../Pages/Contact";
 
 const router = createBrowserRouter([
 

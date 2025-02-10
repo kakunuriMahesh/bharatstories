@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eng } from "../Utils/Elglish/EnglishScript";
+import { useSelector } from "react-redux";
+// import { Eng } from "../Utils/Elglish/EnglishScript";
+import { TeEn } from "../Utils/TeEn";
 import StoriesList from "./StoriesList";
 
 const ViewContent = () => {
   const [story, setStory] = useState(null); // Set initial state to `null`
   const { name } = useParams();
+  const language = useSelector((state) => state.language.language);
   const cleanName = name.startsWith(":") ? name.slice(1) : name;
+  console.log(cleanName, "cleanName");
   //   const cleanId = id.startsWith(":") ? id.slice(1) : id;
 
   useEffect(() => {
     if (name) {
-      const findStory = Eng?.stories.find((story) => story?.name === cleanName);
+      // const findStory = Eng?.stories.find((story) => story?.name === cleanName);
+      const findStory = TeEn?.stories.find(
+        (story) => story?.name["en"] === cleanName
+      );
+      console.log(findStory, "findStory");
 
-      //   if (findStory) {
-      //     const set = findStory?.parts?.story.find(
-      //       (eachPart) => eachPart?.id === cleanId
-      //     );
-      //     setStory(set || null); // Avoid setting `undefined`
-      //   }
       setStory(findStory);
     }
   }, [name]);
@@ -34,9 +36,10 @@ const ViewContent = () => {
         <div className="relative bg-black opacity-[0.4] h-full w-full"></div>
         <div className="absolute left-4 bottom-3 text-white">
           <h1 className=" text-white opacity-[0.9] font-extrabold text-[30px] md:text-[50px]">
-            Story {name}
+            {story.name[language]}
           </h1>
           <p>{story.parts.card.length} Parts</p>
+
           <p className="text-[10px] font-semibold">ENG / TEL</p>
         </div>
       </div>
