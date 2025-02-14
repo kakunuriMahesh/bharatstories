@@ -5,6 +5,7 @@ import { Home, Info, Phone, Search } from "lucide-react";
 import { Eng, Tel } from "../Utils/Elglish/EnglishScript"; // English content
 import { TeEn } from "../Utils/TeEn";
 import StoriesList from "./StoriesList";
+import HomeBanner from "./HomeBanner";
 
 const Content = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -105,6 +106,7 @@ const Content = () => {
         )}
       </div> */}
       {/* ✅ Dynamic Stories Based on Language */}
+      <HomeBanner/>
       {TeEn?.stories.map((eachStory) => (
         <div key={eachStory?.id}>
           <div className="flex justify-between mt-[10px]">

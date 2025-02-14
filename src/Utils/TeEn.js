@@ -27,11 +27,9 @@ import partFiveThree from "../assets/Krishna-2/partFiveThree.png";
 import partFiveFour from "../assets/Krishna-2/partFiveFour.png";
 import partFiveFive from "../assets/Krishna-2/partFiveFive.png";
 
-
-
-
-
-
+import krishnaBanner from "../assets/Krishna-2/krishnaBanner.jpg";
+import SrimadBhagavatham from "../assets/SrimadBhagavatha/srimadBhagavatham.jpg";
+import Mahabharatham from "../assets/Mahabharatha/mahabharathamCover.jpg";
 
 export const TeEn = {
   language: "Eng",
@@ -40,6 +38,7 @@ export const TeEn = {
       id: "1",
       name: { en: "Krishna", te: "కృష్ణ" },
       storyCoverImage: krishnaCoverImg,
+      bannerImge: krishnaBanner,
       parts: {
         card: [
           {
@@ -182,7 +181,7 @@ export const TeEn = {
                   en: "The innocent smile of a child can hide the mightiest of destinies.",
                   te: "ఒక పిల్లవాడి నిర్జనమైన నవ్వు, అత్యాశైన దుర్గతులనాటికి దాటించగలదు.",
                 },
-                image:partTwoOne ,
+                image: partTwoOne,
                 text: {
                   en: "Krishna, now safe in Gokul, grew up under the loving care of Nanda and Yashoda. From the very beginning, his presence brought joy to the entire village. However, signs of his divine nature often emerged, leaving those around him both awestruck and puzzled.\n\nOne such instance was his encounter with Putana, a demoness sent by Kamsa to kill him. Disguised as a beautiful woman, she tried to poison the infant by feeding him milk. To everyone’s astonishment, Krishna sucked the life out of her, leaving her lifeless form sprawling across the fields.\n\nThis was only the beginning of the many miraculous events that marked Krishna’s childhood. From lifting the Govardhan Hill to protect the villagers from torrential rains to subduing the serpent Kaliya, Krishna’s deeds showcased his divine strength and compassion.",
                   te: `కృష్ణుడు, ఇప్పుడు గోకులంలో సురక్షితమైనాడు, నంద మరియు యశోద యొక్క ప్రేమతో పెరిగాడు. మొదటి నుండి, అతని ఉనికి మొత్తం గ్రామానికి ఆనందాన్ని తెచ్చింది. అయితే, అతని దివ్య స్వభావం యొక్క సంకేతాలు తరచూ బయటకు వచ్చినది, అతని చుట్టూ ఉన్నవారిని ఆశ్చర్యపరిచి, వారు మేటికి చెలమయించారు.
@@ -572,7 +571,7 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
                   en: "The body is but a vessel; the soul journeys eternal.",
                   te: "శరీరం ఒక పాత్ర; ఆత్మ శాశ్వతంగా ప్రయాణిస్తుంది.",
                 },
-                image:partFiveThree,
+                image: partFiveThree,
                 text: {
                   en: `After the fall of the Yadavas, Krishna retreated to the forest of Prabhasa. Sitting beneath a tree, he meditated, preparing to leave the mortal world. A hunter named Jara, mistaking Krishna’s foot for a deer, shot an arrow that struck him fatally.
 
@@ -628,6 +627,8 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
     {
       id: "2",
       name: { en: "Mahabharata", te: "మహాభారతం" },
+      storyCoverImage: Mahabharatham,
+      bannerImge: Mahabharatham,
       parts: {
         card: [
           {
@@ -645,7 +646,6 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
           {
             id: "2",
@@ -662,7 +662,6 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
           {
             id: "3",
@@ -679,12 +678,11 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
           {
             id: "4",
             title: {
-              en: "The Mahabharata War and Krishna’s Role as a Guide",
+              en: "The Mahabharata War and Krishna’s Role",
               te: "మహాభారత యుద్ధం మరియు కృష్ణుడి మార్గదర్శనం",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
@@ -696,12 +694,11 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
           {
             id: "5",
             title: {
-              en: "panchali's Vow and the Game of Dice",
+              en: "mahabharata: The Pandavas’ Vow and the Game of Dice",
               te: "పాంచాలి ప్రతిజ్ఞ మరియు పాస్తా ఆట",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
@@ -713,7 +710,6 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
         ],
         story: [],
@@ -722,20 +718,22 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
     {
       id: "3",
       name: { en: "Srimad Bhagavatham", te: "శ్రీమద్ భాగవతం" },
+      storyCoverImage: SrimadBhagavatham,
+      bannerImge: SrimadBhagavatham,
       parts: {
         card: [
           {
             id: "1",
             title: {
-              en: "Early Life in Gokul and Vrindavan",
-              te: "గోకుల మరియు వృందావనంలో మొదటి జీవితం",
+              en: "MahaBharata: The Epic of the Pandavas and Kauravas",
+              te: "మహాభారతం: పాండవులు మరియు కౌరవుల కథానాయకులు",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
             thumbnailImage: "",
             coverImage: "",
             description: {
-              en: "This chapter in Krishna's life sets the stage for the eventual downfall of Kamsa and the restoration of dharma.",
-              te: "కృష్ణుడి జీవితంలో ఈ అధ్యాయం కంసుని పతనానికి మరియు ధర్మాన్ని పునరుద్ధరించడానికి మార్గం సిద్ధం చేస్తుంది.",
+              en: "Explore the timeless tale of the Pandavas and Kauravas, whose epic battle shaped the destiny of a nation.",
+              te: "పాండవులు మరియు కౌరవుల కథానాయకులు చివరి యుద్ధం ఒక దేశం యొక్క భవిష్యత్తును ఆకారమిచ్చింది.",
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
@@ -743,8 +741,8 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
           {
             id: "2",
             title: {
-              en: "Adolescence and Battles in Mathura",
-              te: "యౌవనం మరియు మథురలో యుద్ధాలు",
+              en: "Youth and Battles in Mathura",
+              te: "మథురలో యువత మరియు యుద్ధాలు",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
             thumbnailImage: "",
@@ -759,8 +757,8 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
           {
             id: "3",
             title: {
-              en: "Establishing Dwaraka and Further Deeds",
-              te: "ద్వారకను స్థాపించడం మరియు మరియు కార్యాలు",
+              en: "mahabharata: The Birth of Krishna and His Childhood Exploits",
+              te: "మహాభారతం: కృష్ణుడి జన్మం మరియు తన బాల్య కార్యాలు",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
             thumbnailImage: "",
@@ -775,7 +773,7 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
           {
             id: "4",
             title: {
-              en: "The Mahabharata War and Krishna’s Role as a Guide",
+              en: "The Mahabharata War and Krishna’s Role",
               te: "మహాభారత యుద్ధం మరియు కృష్ణుడి మార్గదర్శనం",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
@@ -791,8 +789,8 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
           {
             id: "5",
             title: {
-              en: "Krishna’s Later Years and Departure from the Mortal World",
-              te: "కృష్ణుడి తరువాటి సంవత్సరాలు మరియు మానవ ప్రపంచం నుండి వి",
+              en: "mahabharata: The Pandavas’ Vow and the Game of Dice",
+              te: "పాంచాలి ప్రతిజ్ఞ మరియు పాస్తా ఆట",
             },
             date: { en: "December 11, 2024", te: "2024 డిసెంబర్ 11" },
             thumbnailImage: "",
@@ -803,7 +801,6 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
             },
             timeToRead: { en: "5 min", te: "5 నిమిషాలు" },
             storyType: { en: "History", te: "చరిత్ర" },
-            
           },
         ],
         story: [],
@@ -812,101 +809,101 @@ This phase of Krishna’s life reflects his role as a guide and philosopher, sha
   ],
 };
 
-export const Tel = {
-  language: "Telugu",
-  stories: [
-    {
-      id: "1",
-      name: "కృష్ణ",
-      storyCoverImage: krishnaCoverImg,
-      parts: {
-        card: [
-          {
-            id: "1",
-            title: "గోకులం మరియు వృందావన్లో ప్రారంభ జీవితం",
-            date: "డిసెంబర్ 11, 2024",
-            thumbnailImage: "",
-            coverImage: cardOne,
-            description:
-              "కృష్ణుడి జీవితంలో ఈ అధ్యాయం కంసుని పతనానికి మరియు ధర్మాన్ని పునరుద్ధరించడానికి మార్గం సిద్ధం చేస్తుంది.",
-            timeToRead: "5 నిమిషాలు",
-            storyType: "చరిత్ర",
-            part: [
-              {
-                id: "1",
-                heading: "విధి యొక్క భవిష్యవాణి",
-                quote: "జీవితం యొక్క నేతలు విధి ద్వారా ముందుగానే నేయబడతాయి.",
-                image: sectionOne,
-                text: `పురాతన మథురా నగరంలో, క్రూరుడైన కంసుడు పరిపాలిస్తున్నాడు. అతని క్రూరత్వం వల్ల అందరూ భయపడుతున్నారు. కంసుడికి ఒక దివ్య భవిష్యవాణి వినిపించింది: "కంసా, దేవకి యొక్క ఎనిమిదవ పిల్లలు నిన్ను నాశనం చేస్తారు."
+// export const Tel = {
+//   language: "Telugu",
+//   stories: [
+//     {
+//       id: "1",
+//       name: "కృష్ణ",
+//       storyCoverImage: krishnaCoverImg,
+//       parts: {
+//         card: [
+//           {
+//             id: "1",
+//             title: "గోకులం మరియు వృందావన్లో ప్రారంభ జీవితం",
+//             date: "డిసెంబర్ 11, 2024",
+//             thumbnailImage: "",
+//             coverImage: cardOne,
+//             description:
+//               "కృష్ణుడి జీవితంలో ఈ అధ్యాయం కంసుని పతనానికి మరియు ధర్మాన్ని పునరుద్ధరించడానికి మార్గం సిద్ధం చేస్తుంది.",
+//             timeToRead: "5 నిమిషాలు",
+//             storyType: "చరిత్ర",
+//             part: [
+//               {
+//                 id: "1",
+//                 heading: "విధి యొక్క భవిష్యవాణి",
+//                 quote: "జీవితం యొక్క నేతలు విధి ద్వారా ముందుగానే నేయబడతాయి.",
+//                 image: sectionOne,
+//                 text: `పురాతన మథురా నగరంలో, క్రూరుడైన కంసుడు పరిపాలిస్తున్నాడు. అతని క్రూరత్వం వల్ల అందరూ భయపడుతున్నారు. కంసుడికి ఒక దివ్య భవిష్యవాణి వినిపించింది: "కంసా, దేవకి యొక్క ఎనిమిదవ పిల్లలు నిన్ను నాశనం చేస్తారు."
 
-                ఈ భయంకరమైన భవిష్యవాణి విని, కంసుడు భయంతో కంగారుపడ్డాడు. అతను దేవకిని కత్తితో చంపాలనుకున్నాడు. దేవకి భర్త వసుదేవుడు, "ఓ కంసా, ఆమెను జీవించనివ్వు! ఆమెకు జన్మించే ప్రతి పిల్లవాడిని నీకు అప్పగిస్తాను" అని వేడుకున్నాడు.
+//                 ఈ భయంకరమైన భవిష్యవాణి విని, కంసుడు భయంతో కంగారుపడ్డాడు. అతను దేవకిని కత్తితో చంపాలనుకున్నాడు. దేవకి భర్త వసుదేవుడు, "ఓ కంసా, ఆమెను జీవించనివ్వు! ఆమెకు జన్మించే ప్రతి పిల్లవాడిని నీకు అప్పగిస్తాను" అని వేడుకున్నాడు.
 
-                అందువల్ల, కంసుడు దేవకి మరియు వసుదేవుడిని చెరలో పెట్టాడు. వారి జీవితం చీకటిగా మారింది.`,
-              },
-              {
-                id: "2",
-                heading: "ముగ్ధత యొక్క త్యాగం",
-                quote: "చీకటి చెరసాల కూడా ఆశ యొక్క కాంతిని కట్టలేదు.",
-                image: sectionTwo,
-                text: `వసుదేవుడు తన మాటను నిలబెట్టాడు. దేవకి మరియు వసుదేవుడి మొదటి ఆరు పిల్లలను కంసుడికి అప్పగించాడు. ప్రతిసారీ, దేవకి ఏడుపులు చెరసాలలో ప్రతిధ్వనించాయి, కానీ కంసుడు కరుణ లేకుండా వారిని చంపాడు.
+//                 అందువల్ల, కంసుడు దేవకి మరియు వసుదేవుడిని చెరలో పెట్టాడు. వారి జీవితం చీకటిగా మారింది.`,
+//               },
+//               {
+//                 id: "2",
+//                 heading: "ముగ్ధత యొక్క త్యాగం",
+//                 quote: "చీకటి చెరసాల కూడా ఆశ యొక్క కాంతిని కట్టలేదు.",
+//                 image: sectionTwo,
+//                 text: `వసుదేవుడు తన మాటను నిలబెట్టాడు. దేవకి మరియు వసుదేవుడి మొదటి ఆరు పిల్లలను కంసుడికి అప్పగించాడు. ప్రతిసారీ, దేవకి ఏడుపులు చెరసాలలో ప్రతిధ్వనించాయి, కానీ కంసుడు కరుణ లేకుండా వారిని చంపాడు.
 
-                కానీ ఏడవ పిల్లవాడు పుట్టేసమయంలో, ఒక అద్భుతం జరిగింది. దేవి మహామాయ దేవకి గర్భంలోని పిల్లవాడిని రోహిణి గర్భంలోకి మార్చింది. ఈ పిల్లవాడు బలరాముడు, అతను తన తమ్ముడు కృష్ణుడికి సహాయం చేయడానికి జన్మించాడు.
+//                 కానీ ఏడవ పిల్లవాడు పుట్టేసమయంలో, ఒక అద్భుతం జరిగింది. దేవి మహామాయ దేవకి గర్భంలోని పిల్లవాడిని రోహిణి గర్భంలోకి మార్చింది. ఈ పిల్లవాడు బలరాముడు, అతను తన తమ్ముడు కృష్ణుడికి సహాయం చేయడానికి జన్మించాడు.
 
-                కంసుడు మొదటిసారిగా మోసపోయాడు. ఏడవ గర్భం గర్భస్రావం అయిందని అనుకున్నాడు. దేవకి మరియు వసుదేవుడు తమ తరువాతి పిల్లవాడి భద్రత కోసం ప్రార్థించారు.`,
-              },
-              {
-                id: "3",
-                heading: "రక్షకుడి జననం",
-                quote:
-                  "చీకటి గరిష్ట స్థితిలో ఉన్నప్పుడు, ఆశ యొక్క కాంతి ప్రకాశిస్తుంది.",
-                image: sectionThree,
-                text: `ఒక భయంకరమైన రాత్రిలో, దేవకి యొక్క ఎనిమిదవ పిల్లవాడు జన్మించాడు. ఆ రాత్రి అంతా దివ్యత్వంతో నిండిపోయింది. శిశువు తన నిజమైన రూపాన్ని చూపించాడు. వసుదేవుడు మరియు దేవకి తమ కుమారుడిని శంఖం, చక్రం, గద, మరియు పద్మం ధరించిన విష్ణువుగా చూశారు.
+//                 కంసుడు మొదటిసారిగా మోసపోయాడు. ఏడవ గర్భం గర్భస్రావం అయిందని అనుకున్నాడు. దేవకి మరియు వసుదేవుడు తమ తరువాతి పిల్లవాడి భద్రత కోసం ప్రార్థించారు.`,
+//               },
+//               {
+//                 id: "3",
+//                 heading: "రక్షకుడి జననం",
+//                 quote:
+//                   "చీకటి గరిష్ట స్థితిలో ఉన్నప్పుడు, ఆశ యొక్క కాంతి ప్రకాశిస్తుంది.",
+//                 image: sectionThree,
+//                 text: `ఒక భయంకరమైన రాత్రిలో, దేవకి యొక్క ఎనిమిదవ పిల్లవాడు జన్మించాడు. ఆ రాత్రి అంతా దివ్యత్వంతో నిండిపోయింది. శిశువు తన నిజమైన రూపాన్ని చూపించాడు. వసుదేవుడు మరియు దేవకి తమ కుమారుడిని శంఖం, చక్రం, గద, మరియు పద్మం ధరించిన విష్ణువుగా చూశారు.
 
-                "భగవంతుడు మానవుల మధ్యకు వచ్చి, వారిని చీకటి నుండి కాంతి వైపు నడిపిస్తాడు," అని వసుదేవుడు అన్నాడు. కానీ ఈ దర్శనం అదృశ్యమై, శిశువు మళ్లీ సాధారణ మానవ శిశువుగా కనిపించాడు.
+//                 "భగవంతుడు మానవుల మధ్యకు వచ్చి, వారిని చీకటి నుండి కాంతి వైపు నడిపిస్తాడు," అని వసుదేవుడు అన్నాడు. కానీ ఈ దర్శనం అదృశ్యమై, శిశువు మళ్లీ సాధారణ మానవ శిశువుగా కనిపించాడు.
 
-                ఒక దివ్య స్వరం వసుదేవుడికి మార్గదర్శకత్వం వహించింది. చెరసాల తలుపులు మాయాగతంగా తెరుచుకున్నాయి, మరియు కాపలాదారులు నిద్రపోయారు. చర్య తీసుకోవడానికి సమయం వచ్చింది.`,
-              },
-              {
-                id: "4",
-                heading: "తుఫాను ద్వారా ప్రయాణం",
-                quote:
-                  "దివ్య కాంతి విశ్వాసంతో నడిచే వారికి మార్గదర్శకత్వం వహిస్తుంది.",
-                image: sectionFour,
-                text: `శిశువును ఒక బుట్టలో ఉంచి, వసుదేవుడు తుఫాను రాత్రిలో బయలుదేరాడు. ఆకాశం గర్జిస్తోంది, మరియు యమునా నది భయంకరంగా పొంగిపోయింది.
+//                 ఒక దివ్య స్వరం వసుదేవుడికి మార్గదర్శకత్వం వహించింది. చెరసాల తలుపులు మాయాగతంగా తెరుచుకున్నాయి, మరియు కాపలాదారులు నిద్రపోయారు. చర్య తీసుకోవడానికి సమయం వచ్చింది.`,
+//               },
+//               {
+//                 id: "4",
+//                 heading: "తుఫాను ద్వారా ప్రయాణం",
+//                 quote:
+//                   "దివ్య కాంతి విశ్వాసంతో నడిచే వారికి మార్గదర్శకత్వం వహిస్తుంది.",
+//                 image: sectionFour,
+//                 text: `శిశువును ఒక బుట్టలో ఉంచి, వసుదేవుడు తుఫాను రాత్రిలో బయలుదేరాడు. ఆకాశం గర్జిస్తోంది, మరియు యమునా నది భయంకరంగా పొంగిపోయింది.
 
-                కానీ వసుదేవుడు నీటిలోకి అడుగుపెట్టగానే, నది అద్భుతంగా విడిపోయింది. అతని పైన, వాసుకి పాము కనిపించింది, శిశువును వర్షం నుండి రక్షిస్తూ. "ప్రకృతి కూడా దివ్యత్వానికి నమస్కరిస్తుంది," అని వసుదేవుడు అన్నాడు.
+//                 కానీ వసుదేవుడు నీటిలోకి అడుగుపెట్టగానే, నది అద్భుతంగా విడిపోయింది. అతని పైన, వాసుకి పాము కనిపించింది, శిశువును వర్షం నుండి రక్షిస్తూ. "ప్రకృతి కూడా దివ్యత్వానికి నమస్కరిస్తుంది," అని వసుదేవుడు అన్నాడు.
 
-                అతను నిర్ణయించుకున్న మార్గంలో నడిచి, గోకులం చేరుకున్నాడు.`,
-              },
-              {
-                id: "5",
-                heading: "గొప్ప మార్పిడి",
-                quote:
-                  "విధి అద్భుతమైన మార్గాల్లో పనిచేస్తుంది, జీవితాలను ఒక చిత్రంలా అల్లుతుంది.",
-                image: sectionFive,
-                text: `వసుదేవుడు నంద యొక్క ఇంటిలోకి ప్రవేశించాడు. యశోదా, నంద భార్య, ఆమె కూతురు పక్కన నిద్రిస్తోంది. వసుదేవుడు తన కుమారుడిని ఆమె పక్కన ఉంచాడు మరియు ఆమె కుమార్తెను తీసుకున్నాడు.
+//                 అతను నిర్ణయించుకున్న మార్గంలో నడిచి, గోకులం చేరుకున్నాడు.`,
+//               },
+//               {
+//                 id: "5",
+//                 heading: "గొప్ప మార్పిడి",
+//                 quote:
+//                   "విధి అద్భుతమైన మార్గాల్లో పనిచేస్తుంది, జీవితాలను ఒక చిత్రంలా అల్లుతుంది.",
+//                 image: sectionFive,
+//                 text: `వసుదేవుడు నంద యొక్క ఇంటిలోకి ప్రవేశించాడు. యశోదా, నంద భార్య, ఆమె కూతురు పక్కన నిద్రిస్తోంది. వసుదేవుడు తన కుమారుడిని ఆమె పక్కన ఉంచాడు మరియు ఆమె కుమార్తెను తీసుకున్నాడు.
 
-                "నన్ను క్షమించు," అని అతను అన్నాడు, "నేను నీ తల్లిదండ్రుల నుండి నిన్ను వేరు చేస్తున్నాను. నీవు ఒక దివ్య ప్రణాళికలో భాగం."
+//                 "నన్ను క్షమించు," అని అతను అన్నాడు, "నేను నీ తల్లిదండ్రుల నుండి నిన్ను వేరు చేస్తున్నాను. నీవు ఒక దివ్య ప్రణాళికలో భాగం."
 
-                వసుదేవుడు నంద కుమార్తెను తీసుకుని మథురాకు తిరిగి వచ్చాడు. మార్పిడి పూర్తయింది, మరియు విధి తన పనిని ప్రారంభించింది.`,
-              },
-              {
-                id: "6",
-                heading: "మహామాయ యొక్క తప్పించుకునేవి",
-                quote: "చెడు దాడి చేయవచ్చు, కానీ న్యాయం చేయలేదు.",
-                image: sectionSix,
-                text: `ఉదయం అయింది, మరియు కంసుడి అరమనలో శిశువు యొక్క ఏడుపులు ప్రతిధ్వనించాయి. కంసుడు చెరసాలకు వచ్చాడు, ఈ "ఎనిమిదవ పిల్లవాడిని" చంపాలనుకున్నాడు.
+//                 వసుదేవుడు నంద కుమార్తెను తీసుకుని మథురాకు తిరిగి వచ్చాడు. మార్పిడి పూర్తయింది, మరియు విధి తన పనిని ప్రారంభించింది.`,
+//               },
+//               {
+//                 id: "6",
+//                 heading: "మహామాయ యొక్క తప్పించుకునేవి",
+//                 quote: "చెడు దాడి చేయవచ్చు, కానీ న్యాయం చేయలేదు.",
+//                 image: sectionSix,
+//                 text: `ఉదయం అయింది, మరియు కంసుడి అరమనలో శిశువు యొక్క ఏడుపులు ప్రతిధ్వనించాయి. కంసుడు చెరసాలకు వచ్చాడు, ఈ "ఎనిమిదవ పిల్లవాడిని" చంపాలనుకున్నాడు.
 
-                దేవకి మరియు వసుదేవుడు కరుణ కోరారు, కానీ కంసుడు వినలేదు. అతను శిశువును పైకి ఎత్తి, నేలపై పడేయాలనుకున్నాడు.
+//                 దేవకి మరియు వసుదేవుడు కరుణ కోరారు, కానీ కంసుడు వినలేదు. అతను శిశువును పైకి ఎత్తి, నేలపై పడేయాలనుకున్నాడు.
 
-                అకస్మాత్తుగా, శిశువు అతని చేతుల నుండి జారిపోయి ఆకాశంలోకి ఎగిరింది. ఆమె దేవి మహామాయగా మారింది, మరియు "ఓ కంసా, నిన్ను నాశనం చేయబోయే వాడు సురక్షితంగా ఉన్నాడు!" అని ప్రకటించింది.
+//                 అకస్మాత్తుగా, శిశువు అతని చేతుల నుండి జారిపోయి ఆకాశంలోకి ఎగిరింది. ఆమె దేవి మహామాయగా మారింది, మరియు "ఓ కంసా, నిన్ను నాశనం చేయబోయే వాడు సురక్షితంగా ఉన్నాడు!" అని ప్రకటించింది.
 
-                కంసుడు నిశ్చలంగా నిలబడ్డాడు, అతని అహంకారం నాశనమైంది. దివ్య ఆట ప్రారంభమైంది, మరియు అతని అంతం అనివార్యమైంది.`,
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-};
+//                 కంసుడు నిశ్చలంగా నిలబడ్డాడు, అతని అహంకారం నాశనమైంది. దివ్య ఆట ప్రారంభమైంది, మరియు అతని అంతం అనివార్యమైంది.`,
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//     },
+//   ],
+// };

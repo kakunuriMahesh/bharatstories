@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import { Eng } from "../Utils/Elglish/EnglishScript";
-import { TeEn } from "../Utils/TeEn";
+import { TeEn } from "../Utils/TeEn"; 
 import StoriesList from "./StoriesList";
 
 const ViewContent = () => {
