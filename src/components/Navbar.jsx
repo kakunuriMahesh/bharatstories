@@ -13,7 +13,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationPath = location.pathname;
-  console.log(location.pathname, "location");
+  // console.log(location.pathname, "location");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
