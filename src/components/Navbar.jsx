@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Eng } from "../Utils/Elglish/EnglishScript";
 import Moon from "lucide-react/icons/moon";
+import dharmchakra from "../assets/Krishna-2/dharmchakra.jpg";
 import Sun from "lucide-react/icons/sun";
 import useDarkMode from "../Theme/useDarkMode";
 import { setMenuState, setLanguage } from "../Store/languageSlice";
@@ -40,8 +41,18 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowNavbar(window.scrollY < lastScrollY);
-      setLastScrollY(window.scrollY);
+      const currentScrollY = window.scrollY;
+
+      // Show navbar if scrolling up or at top
+      if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+        setShowNavbar(true);
+      }
+      // Hide navbar if scrolling down past navbar height (100px)
+      else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+        setShowNavbar(false);
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -152,7 +163,7 @@ const Navbar = () => {
       <nav
         className={`z-30 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
-        } transition-transform duration-300 fixed md:text-white w-full flex items-center md:justify-between px-[15px] bg-slate-200 dark:bg-slate-800 shadow-lg h-[100px]`}
+        } transition-transform duration-300 fixed md:text-white w-full flex items-center md:justify-between px-[15px] bg-slate-200 dark:bg-slate-800 shadow-lg h-[80px]`}
       >
         <div className="relative flex items-center gap-2">
           <div className="block md:hidden z-30">
@@ -205,14 +216,21 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <h1
+          <div
             onClick={() => {
               navigate("/home");
             }}
-            className=" cursor-pointer w-[150px] md:w-full flex font-bold text-[22px] md:text-[30px] dark:text-text-dark text-text-light"
+            className="flex items-center gap-2"
           >
-            Bharat Stories
-          </h1>
+            {/* <img
+              className=" cursor-pointer w-[50px] rounded-[50%]"
+              src={dharmchakra}
+              alt="dharmchakra"
+            /> */}
+            <h1 className=" cursor-pointer w-[fit] md:w-full flex font-bold text-[22px] md:text-[30px] dark:text-text-dark text-text-light">
+              Bharat Story Books
+            </h1>
+          </div>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
@@ -278,7 +296,7 @@ const Navbar = () => {
           {isSearchOpen && (
             <input
               ref={searchInputRef}
-              placeholder="Bharat Stories"
+              placeholder="Bharat Story Books"
               className=" text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light px-[60px] w-[100%] h-[60px] rounded-[30px]"
               value={searchTerm}
               onChange={handleSearchChange}

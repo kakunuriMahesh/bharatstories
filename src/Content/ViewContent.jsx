@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import { Eng } from "../Utils/Elglish/EnglishScript";
 import { TeEn } from "../Utils/TeEn"; 
@@ -7,6 +7,7 @@ import StoriesList from "./StoriesList";
 
 const ViewContent = () => {
   const [story, setStory] = useState(null); // Set initial state to `null`
+  const { stories, filteredStories } = useOutletContext(); // ✅ Use `useOutletContext` to get stories
   const { name } = useParams();
   const language = useSelector((state) => state.language.language);
   const cleanName = name.startsWith(":") ? name.slice(1) : name;
@@ -16,14 +17,14 @@ const ViewContent = () => {
   useEffect(() => {
     if (name) {
       // const findStory = Eng?.stories.find((story) => story?.name === cleanName);
-      const findStory = TeEn?.stories.find(
+      const findStory = stories.find(
         (story) => story?.name["en"] === cleanName
       );
       console.log(findStory, "findStory");
 
       setStory(findStory);
     }
-  }, [name]);
+  }, [name, stories]);
 
   console.log(story);
   console.log("Iam ready to view content:", name);
@@ -44,8 +45,8 @@ const ViewContent = () => {
         </div>
       </div>
       {/* <img className="md:h-[55vh] w-full" src={story.storyCoverImage} alt="" /> */}
-      <div className=" px-[20px] pb-[20px] font-sans">
-        <div className="mt-[20px] overflow-x-scroll flex gap-2 scrollbar-hide ">
+      <div className=" px-[20px] pb-[20px] font-sans flex items-center justify-center flex-col">
+        <div className="mt-[20px] w-[90vw] flex flex-wrap gap-[10px]">
           {story.parts.card.map((eachPart, index) => (
             <StoriesList
               key={eachPart.id}
