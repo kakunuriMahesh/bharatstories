@@ -2,3 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* In your CSS file */
+@media (max-width: 640px) {
+    .custom-card {
+      max-width: 100%;
+      padding: 0.5rem;
+    }
+    .custom-card img {
+      height: 150px; /* Smaller image on very small screens */
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .custom-card {
+      max-width: 350px;
+    }
+  }

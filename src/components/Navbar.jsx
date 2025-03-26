@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Home, Info, Phone, Search } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Eng } from "../Utils/Elglish/EnglishScript";
 import Moon from "lucide-react/icons/moon";
@@ -10,6 +10,8 @@ import useDarkMode from "../Theme/useDarkMode";
 import { setMenuState, setLanguage } from "../Store/languageSlice";
 
 const Navbar = () => {
+  // const { stories, filteredStories } = useOutletContext(); // ✅ Use `useOutletContext` to get stories
+  // console.log(useOutletContext(), "storiesSearch");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -26,12 +28,24 @@ const Navbar = () => {
   const [isDark, setIsDark] = useDarkMode();
   const iconRef = useRef(null);
 
-  const allTitles = Eng.stories.flatMap((each) => each.parts.card);
+  // console.log(stories, "storiesSearch");
+  const allTitles =
+    Eng.stories.length > 0 && Eng.stories.flatMap((each) => each.parts.card);
   const menuState = useSelector((state) => state.language.menuState);
   const language = useSelector((state) => state.language.language);
 
   const sections = [
-    { name: "Home", icon: <Home size={32} />, path: "/home" },
+    {
+      name: "Home",
+      icon: (
+        <img
+          className=" cursor-pointer w-[32px] rounded-[50%]"
+          src={dharmchakra}
+          alt="dharmchakra"
+        />
+      ),
+      path: "/home",
+    },
     { name: "About", icon: <Info size={32} />, path: "/about" },
     { name: "Contact", icon: <Phone size={32} />, path: "/contact" },
   ];
@@ -163,7 +177,7 @@ const Navbar = () => {
       <nav
         className={`z-30 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
-        } transition-transform duration-300 fixed md:text-white w-full flex items-center md:justify-between px-[15px] bg-slate-200 dark:bg-slate-800 shadow-lg h-[80px]`}
+        } transition-transform duration-500 fixed md:text-white w-full flex items-center md:justify-between px-[15px] py-[20px] bg-slate-200 dark:bg-slate-800 shadow-lg h-fit`}
       >
         <div className="relative flex items-center gap-2">
           <div className="block md:hidden z-30">
@@ -181,7 +195,12 @@ const Navbar = () => {
               {sections[activeIndex].path === locationPath ? (
                 sections[activeIndex].icon
               ) : (
-                <Home size={32} />
+                // <Home size={32} />
+                <img
+                  className=" cursor-pointer w-[32px] rounded-[50%]"
+                  src={dharmchakra}
+                  alt="dharmchakra"
+                />
               )}
             </div>
 
@@ -222,12 +241,12 @@ const Navbar = () => {
             }}
             className="flex items-center gap-2"
           >
-            {/* <img
-              className=" cursor-pointer w-[50px] rounded-[50%]"
+            <img
+              className=" hidden md:block cursor-pointer w-[30px] rounded-[50%]"
               src={dharmchakra}
               alt="dharmchakra"
-            /> */}
-            <h1 className=" cursor-pointer w-[fit] md:w-full flex font-bold text-[22px] md:text-[30px] dark:text-text-dark text-text-light">
+            />
+            <h1 className=" cursor-pointer w-[fit] md:w-full flex font-bold text-[18px] md:text-[20px] dark:text-text-dark text-text-light">
               Bharat Story Books
             </h1>
           </div>
@@ -243,14 +262,14 @@ const Navbar = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchSubmit}
-                className="text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light  pr-[45px] pl-[20px] w-[100%] h-[60px] rounded-[30px]"
+                className="text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light  pr-[45px] pl-[20px] w-[100%] h-[35px] rounded-[30px]"
               />
             )}
             <div
               onClick={handleSearchIconClick}
               className="absolute right-[12px] dark:text-text-dark text-text-light cursor-pointer"
             >
-              <Search />
+              <Search size={16} />
             </div>
             {suggestions.length > 0 && (
               <ul className="absolute top-12 left-0 w-full bg-white text-black shadow-md rounded-lg">
@@ -266,7 +285,7 @@ const Navbar = () => {
               </ul>
             )}
           </div>
-          <ul className="flex dark:text-text-dark text-text-light md:gap-6 md:text-2xl">
+          <ul className="flex items-center dark:text-text-dark text-text-light md:gap-6  md:text-sm">
             {sections.map((section, index) => (
               <li
                 className=" cursor-pointer"
@@ -280,10 +299,10 @@ const Navbar = () => {
               onClick={() => setIsDark(!isDark)}
               className="px-4 py-2 rounded dark:text-text-dark text-text-light"
             >
-              {isDark ? <Moon size={24} /> : <Sun size={24} />}
+              {isDark ? <Moon size={16} /> : <Sun size={16} />}
             </button>
             <div
-              className="bg-slate-600 w-[60px] text-center border rounded-md text-white px-[9px] text-[15px] h-fit cursor-pointer"
+              className="bg-slate-600 text-center border rounded-md text-white px-[9px] py-[5px] text-[15px] cursor-pointer"
               onClick={() =>
                 dispatch(setLanguage(language === "en" ? "te" : "en"))
               }

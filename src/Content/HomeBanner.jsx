@@ -21,7 +21,7 @@ const HomeBanner = () => {
   const handleViewAll = (storyName) => {
     navigate(`/viewstory/${storyName}`);
   };
-  console.log(allTitles, allNames, "allTitles");
+  console.log(allTitles, allNames, stories, "allTitles");
 
   const isLoading = !allTitles || !allNames;
 
