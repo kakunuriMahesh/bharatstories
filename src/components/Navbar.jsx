@@ -302,12 +302,12 @@ const Navbar = () => {
               {isDark ? <Moon size={16} /> : <Sun size={16} />}
             </button>
             <div
-              className="bg-slate-600 text-center border rounded-md text-white px-[9px] py-[5px] text-[15px] cursor-pointer"
+              className="bg-slate-600 md:w-[70px] text-center border rounded-md text-white px-[9px] py-[5px] text-[15px] cursor-pointer"
               onClick={() =>
                 dispatch(setLanguage(language === "en" ? "te" : "en"))
               }
             >
-              {language === "en" ? "Telugu" : "English"}
+              {language === "en" ? "తెలుగు" : "English"}
             </div>
           </ul>
         </div>

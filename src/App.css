@@ -10,15 +10,6 @@
 /*end  */
 
 * {
-  font-weight: semi-bold;
+  font-family: "Mandali", sans-serif;
   border: none;
 }
-/* input {
-  background: black !important;
-  outline:2px solid gray;
-  color: #fff !important;
-  border: none;
-}
-input::placeholder {
-  color: #fff !important;
-} */
