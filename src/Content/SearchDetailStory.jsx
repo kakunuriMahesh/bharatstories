@@ -207,21 +207,26 @@ import handleScrollToTop from "../Theme/HandleSmoothScroll";
 
 const SearchDetailStory = () => {
   const [story, setStory] = useState(null);
-  const [currentStoryParts, setCurrentStoryParts] = useState([]); // Parts of the current story
-  const [showPopup, setShowPopup] = useState(false); // For next story popup
-  const [nextStoryTitle, setNextStoryTitle] = useState(""); // Next story suggestion
+  const [currentStoryParts, setCurrentStoryParts] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [nextStoryTitle, setNextStoryTitle] = useState("");
   const { stories, filteredStories } = useOutletContext();
   const { title } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const language = useSelector((state) => state.language.language);
+  const { fontSize, theme } = useSelector((state) => state.readerSettings);
+
+  const themeStyles = {
+    light: { backgroundColor: "#ffffff", color: "#000000" },
+    dark: { backgroundColor: "#1a1a1a", color: "#ffffff" },
+    calm: { backgroundColor: "#f5f5d5", color: "#4a4a4a" },
+  };
 
   const cleanName = title.startsWith(":") ? title.slice(1) : title;
 
-  // Fetch and set the current story and its parts
   useEffect(() => {
     if (title && stories.length > 0) {
-      // Find the current story
       const currentStory = stories.find((story) =>
         story.parts.card.some((part) =>
           [part.title["en"], part.title["te"], part.title["hi"]].includes(
@@ -231,7 +236,7 @@ const SearchDetailStory = () => {
       );
 
       if (currentStory) {
-        setCurrentStoryParts(currentStory.parts.card); // Set only the parts of the current story
+        setCurrentStoryParts(currentStory.parts.card);
         const currentPart = currentStory.parts.card.find((part) =>
           [part.title["en"], part.title["te"], part.title["hi"]].includes(
             cleanName
@@ -242,36 +247,30 @@ const SearchDetailStory = () => {
     }
   }, [title, stories, cleanName]);
 
-  // Helper function to find the current index within the current story's parts
   const getCurrentIndex = () => {
     return currentStoryParts.findIndex((part) =>
       [part.title["en"], part.title["te"], part.title["hi"]].includes(cleanName)
     );
   };
 
-  // Handle Next Button
   const handleNext = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex < currentStoryParts.length - 1) {
-      // Move to the next part within the same story
       const nextPart = currentStoryParts[currentIndex + 1];
       navigate(`/detailstory/${nextPart.title[language]}`);
       handleScrollToTop();
     } else {
-      // If last part of the current story, suggest the next story
       const currentStoryIndex = stories.findIndex((s) =>
         s.parts.card.some((p) => p.title[language] === cleanName)
       );
-      console.log();
       if (currentStoryIndex < stories.length - 1) {
         const nextStory = stories[currentStoryIndex + 1];
-        setNextStoryTitle(nextStory.parts.card[0].title[language]); // First part of next story
+        setNextStoryTitle(nextStory.parts.card[0].title[language]);
         setShowPopup(true);
       }
     }
   };
 
-  // Handle Previous Button
   const handlePrevious = () => {
     const currentIndex = getCurrentIndex();
     if (currentIndex > 0) {
@@ -281,7 +280,6 @@ const SearchDetailStory = () => {
     }
   };
 
-  // Handle Popup Confirmation
   const handlePopupConfirm = () => {
     setShowPopup(false);
     navigate(`/detailstory/${nextStoryTitle}`);
@@ -291,16 +289,22 @@ const SearchDetailStory = () => {
   const isLoading = !story || currentStoryParts.length === 0;
 
   return (
-    <div className="px-[20px] pb-[20px] relative">
+    <div
+      style={{
+        ...themeStyles[theme],
+        fontSize: `${fontSize}px`,
+        padding: "20px",
+        minHeight: "100vh",
+      }}
+      className="px-[20px] pb-[20px] relative"
+    >
       {isLoading ? (
         <StoryShimmer />
       ) : story?.part ? (
         <div className="md:px-[50px] pb-[20px]">
           <div className="flex flex-col items-center justify-center p-[10px] w-[100%]">
-            <p className="md:text-[20px] text-[18px]">
-              {story.storyType[language]}
-            </p>
-            <h3 className="font-bold md:text-3xl text-xl mb-[5px]">
+            <p>{story.storyType[language]}</p>
+            <h3 className="font-bold mb-[5px]">
               {story.title[language]}
             </h3>
             <img
@@ -309,22 +313,7 @@ const SearchDetailStory = () => {
               alt="thumbnail"
             />
           </div>
-          {/* {story.part.map((section) => (
-            <div className="py-[10px]" key={section.id}>
-              <h3 className="font-bold md:text-xl text-lg mb-[5px]">
-                {section.heading[language]}:
-              </h3>
-              <p className="md:text-[15px] mb-[15px]">{section.quote[language]}</p>
-              <div className="flex items-center justify-start">
-                <img
-                  className="w-full md:object-cover h-fit md:w-[500px] rounded-lg mb-[20px]"
-                  src={section.image}
-                  alt="image"
-                />
-              </div>
-              <p className="text-justify md:text-[15px]">{section.text[language]}</p>
-            </div>
-          ))} */}
+
           {story.part.map((section, index) => (
             <div
               className={`py-[10px] flex flex-col md:flex-row ${
@@ -332,7 +321,6 @@ const SearchDetailStory = () => {
               } items-center gap-6`}
               key={section.id}
             >
-              {/* Image Section */}
               <div className="md:w-1/2 w-full">
                 <img
                   className="w-full h-auto md:object-cover rounded-lg"
@@ -341,22 +329,16 @@ const SearchDetailStory = () => {
                 />
               </div>
 
-              {/* Content Section */}
               <div className="md:w-1/2 w-full">
-                <h3 className="font-bold md:text-xl text-lg mb-[5px]">
+                <h3 className="font-bold mb-[5px]">
                   {section.heading[language]}:
                 </h3>
-                <p className="md:text-[15px] mb-[15px]">
-                  {section.quote[language]}
-                </p>
-                <p className="text-justify md:text-[15px]">
-                  {section.text[language]}
-                </p>
+                <p className="mb-[15px]">{section.quote[language]}</p>
+                <p className="text-justify">{section.text[language]}</p>
               </div>
             </div>
           ))}
 
-          {/* Navigation Buttons */}
           <div className="flex justify-between mt-6">
             <button
               onClick={handlePrevious}
@@ -379,7 +361,6 @@ const SearchDetailStory = () => {
         </div>
       )}
 
-      {/* Popup for Next Story */}
       {showPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -409,6 +390,7 @@ const SearchDetailStory = () => {
 };
 
 export default SearchDetailStory;
+
 
 // FIXME: next and previous buttons working but popup not working
 

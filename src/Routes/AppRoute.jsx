@@ -14,7 +14,7 @@ const Content = lazy(() => import("../Content/Content"));
 const ViewContent = lazy(() => import("../Content/ViewContent"));
 const SearchDetailStory = lazy(() => import("../Content/SearchDetailStory"));
 const About = lazy(() => import("../Pages/About"));
-const Contact = lazy(() => import("../Pages/Contact"));
+const Contact = lazy(() => import("../Pages/Contact")); 
 
 // Custom shimmer wrapper for SearchDetailStory
 const SearchDetailStoryWithShimmer = () => (

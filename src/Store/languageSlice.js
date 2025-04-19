@@ -14,7 +14,6 @@ const languageSlice = createSlice({
     setMenuState: (state, action) => {
       state.menuState = action.payload;
     }
-    
   },
 });
 

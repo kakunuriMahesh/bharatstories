@@ -80,6 +80,7 @@ import Footer from "../components/Footer";
 import { Outlet } from "react-router-dom";
 import { setMenuState } from "../Store/languageSlice";
 import { HomeBannerShimmer, StoryShimmer } from "../components/Loading/storyShimmer";
+import ReaderControls from "./ReaderControls";
 
 const Layout = () => {
   // Existing states
@@ -147,6 +148,9 @@ const Layout = () => {
               loading,
               setLoading,
             }} />
+            <div className=" fixed right-4 bottom-3 z-10">
+              <ReaderControls />
+            </div>
           </main>
           <Footer />
         </div>
@@ -173,6 +177,7 @@ const Layout = () => {
     //     <Footer />
     //   </div>
     // );
+  
   };
 
   return (

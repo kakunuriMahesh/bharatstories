@@ -19,3 +19,25 @@
       max-width: 350px;
     }
   }
+
+
+  .theme-light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  .theme-dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .theme-calm {
+    background-color: #f5f5d5;
+    color: #4a4a4a;
+  }
+  
+  /* Smooth transitions */
+  body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
