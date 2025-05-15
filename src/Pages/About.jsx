@@ -1,8 +1,11 @@
 import React from "react";
 import { Star, Goal, Radio } from "lucide-react";
 import SRC from "../assets/SRC.jpg";
+import StoryViewer from "../Content/StoryViewer";
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
+  const navigate = useNavigate();
   return (
     <div className="p-[20px] flex flex-col gap-4 items-center">
       <h1 className="text-center mb-6 text-2xl font-bold">About Us</h1>
@@ -46,6 +49,8 @@ const About = () => {
           </div>
         </div>
       </div>
+      {/* <button onClick={()=>navigate("/future-updates")}>Future Updates</button> */}
+      <StoryViewer/>
     </div>
   );
 };

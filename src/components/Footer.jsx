@@ -14,7 +14,7 @@ const Footer = () => {
     e.preventDefault();
     setError(null);
     setIsLoading(true); // Set loading state
-
+console.log(email, "email check");
     try {
       // Subscribe to backend API
       const response = await fetch("https://bharat-story-backend.vercel.app/api/subscribers/new-subscribe", {
@@ -25,6 +25,7 @@ const Footer = () => {
         body: JSON.stringify({ email }),
       });
 
+      console.log(response, "onclick response of subscription");
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Subscription API error:", response.status, errorText);

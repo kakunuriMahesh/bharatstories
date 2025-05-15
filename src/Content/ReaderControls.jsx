@@ -15,7 +15,7 @@ const ReaderControls = () => {
   };
 
   const decreaseFontSize = () => {
-    dispatch(setFontSize(Math.max(fontSize - 2, 12))); // Min: 12px
+    dispatch(setFontSize(Math.max(fontSize - 2, 18))); // Min: 18px
   };
 
   // Theme handler

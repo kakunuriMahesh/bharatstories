@@ -53,10 +53,10 @@
 //         <div>
 //           <Navbar />
 //           <main onClick={handleMenu} className="min-h-screen pt-[100px]">
-//             <Outlet context={{ 
-//               stories, 
-//               setStories, 
-//               filteredStories, 
+//             <Outlet context={{
+//               stories,
+//               setStories,
+//               filteredStories,
 //               setFilteredStories,
 //               loading,
 //               setLoading
@@ -71,15 +71,17 @@
 
 // export default Layout;
 
-
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { setMenuState } from "../Store/languageSlice";
-import { HomeBannerShimmer, StoryShimmer } from "../components/Loading/storyShimmer";
+import {
+  HomeBannerShimmer,
+  StoryShimmer,
+} from "../components/Loading/storyShimmer";
 import ReaderControls from "./ReaderControls";
 
 const Layout = () => {
@@ -87,13 +89,15 @@ const Layout = () => {
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
   const menuState = useSelector((state) => state.language.menuState);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const firstSegment = location.pathname.split("/")[1]; // "detailstory"
+  console.log(firstSegment, "checkpathname");
 
   // New states for stories
   const [stories, setStories] = useState([]);
   const [filteredStories, setFilteredStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   // Combined useEffect for images loading and stories fetching
   useEffect(() => {
@@ -110,12 +114,14 @@ const Layout = () => {
     const fetchStories = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://bharat-story-backend.vercel.app/api/stories');
+        const response = await axios.get(
+          "https://bharat-story-backend.vercel.app/api/stories"
+        );
         setStories(response.data);
         setFilteredStories(response.data);
       } catch (err) {
-        setError('Failed to fetch stories');
-        console.error('Failed to fetch stories:', err);
+        setError("Failed to fetch stories");
+        console.error("Failed to fetch stories:", err);
       } finally {
         setLoading(false);
       }
@@ -125,8 +131,7 @@ const Layout = () => {
     Promise.all([...imagePromises]).then(() => setIsImagesLoaded(true));
     fetchStories();
   }, []);
-  console.log(stories, "database")
-
+  console.log(stories, "database");
 
   const handleMenu = () => {
     console.log("menuState", menuState);
@@ -140,17 +145,23 @@ const Layout = () => {
         <div>
           <Navbar />
           <main onClick={handleMenu} className="min-h-screen pt-[100px]">
-            <Outlet context={{ 
-              stories, 
-              setStories, 
-              filteredStories, 
-              setFilteredStories ,
-              loading,
-              setLoading,
-            }} />
-            <div className=" fixed right-4 bottom-3 z-10">
-              <ReaderControls />
-            </div>
+            <Outlet
+              context={{
+                stories,
+                setStories,
+                filteredStories,
+                setFilteredStories,
+                loading,
+                setLoading,
+              }}
+            />
+            {firstSegment === "detailstory" ? (
+              <div className=" fixed right-4 bottom-3 z-10">
+                <ReaderControls />
+              </div>
+            ) : (
+              <></>
+            )}
           </main>
           <Footer />
         </div>
@@ -165,10 +176,10 @@ const Layout = () => {
     //   <div>
     //     <Navbar />
     //     <main onClick={handleMenu} className="min-h-screen pt-[100px]">
-    //       <Outlet context={{ 
-    //         stories, 
-    //         setStories, 
-    //         filteredStories, 
+    //       <Outlet context={{
+    //         stories,
+    //         setStories,
+    //         filteredStories,
     //         setFilteredStories ,
     //         loading,
     //         setLoading,
@@ -177,7 +188,6 @@ const Layout = () => {
     //     <Footer />
     //   </div>
     // );
-  
   };
 
   return (
@@ -188,9 +198,6 @@ const Layout = () => {
 };
 
 export default Layout;
-
-
-
 
 // FIXME: Not passing stories form database to the component
 
@@ -226,7 +233,6 @@ export default Layout;
 //     console.log("menuState", menuState);
 //     if (menuState) dispatch(setMenuState(false));
 //   };
-
 
 //   return (
 //     <div className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">

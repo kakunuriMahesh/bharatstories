@@ -204,6 +204,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { StoryShimmer } from "../components/Loading/storyShimmer";
 import handleScrollToTop from "../Theme/HandleSmoothScroll";
+import YourComponent from "../components/YourComponent";
 
 const SearchDetailStory = () => {
   const [story, setStory] = useState(null);
@@ -245,6 +246,7 @@ const SearchDetailStory = () => {
         setStory(currentPart || null);
       }
     }
+    console.log("check iam called")
   }, [title, stories, cleanName]);
 
   const getCurrentIndex = () => {
@@ -298,7 +300,7 @@ const SearchDetailStory = () => {
       }}
       className="px-[20px] pb-[20px] relative"
     >
-      {isLoading ? (
+      {isLoading ? ( 
         <StoryShimmer />
       ) : story?.part ? (
         <div className="md:px-[50px] pb-[20px]">
@@ -314,7 +316,7 @@ const SearchDetailStory = () => {
             />
           </div>
 
-          {story.part.map((section, index) => (
+          {/* {story.part.map((section, index) => (
             <div
               className={`py-[10px] flex flex-col md:flex-row ${
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
@@ -337,7 +339,8 @@ const SearchDetailStory = () => {
                 <p className="text-justify">{section.text[language]}</p>
               </div>
             </div>
-          ))}
+          ))} */}
+          <YourComponent story={story} language={language}/>
 
           <div className="flex justify-between mt-6">
             <button

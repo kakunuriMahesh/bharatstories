@@ -85,7 +85,7 @@ const StoriesList = (props) => {
             </div>
           </div>
           <p className="p-5 pb-3 text-sm">
-            <span>{eachPart?.date[language]} </span>
+            {/* <span>{eachPart?.date[language]} </span> */}
             {eachPart?.timeToRead[language]}
           </p>
         </div>

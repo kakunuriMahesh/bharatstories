@@ -8,6 +8,8 @@ import {
   HomeBannerShimmer 
 } from "../components/Loading/storyShimmer"; // Import your shimmer components
 import NotFound from "../components/NotFound"; // Keeping this as non-lazy for simplicity
+import StoryViewer from "../Content/StoryViewer";
+
 
 // Lazy load components
 const Content = lazy(() => import("../Content/Content"));
@@ -15,6 +17,7 @@ const ViewContent = lazy(() => import("../Content/ViewContent"));
 const SearchDetailStory = lazy(() => import("../Content/SearchDetailStory"));
 const About = lazy(() => import("../Pages/About"));
 const Contact = lazy(() => import("../Pages/Contact")); 
+
 
 // Custom shimmer wrapper for SearchDetailStory
 const SearchDetailStoryWithShimmer = () => (
@@ -64,6 +67,7 @@ const router = createBrowserRouter([
       { path: "/search/:title", element: <SearchDetailStoryWithShimmer /> },
       { path: "/not-found/:any", element: <NotFound /> },
       { path: "/viewstory/:name", element: <ViewContentWithShimmer /> },
+      // {path: "/future-updates", element: <StoryViewer/>}, // Placeholder for future updates
     ],
   },
 ]);
