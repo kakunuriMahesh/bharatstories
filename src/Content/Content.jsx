@@ -63,18 +63,30 @@ const Content = () => {
                   onClick={() => handleViewAll(eachStory?.name["en"])}
                   className="underline cursor-pointer"
                 >
-                  {eachStory.parts.card.length > 3 ? "View All" : ""}
+                  {eachStory.parts.card.filter((eachPart) => 
+                    eachPart.title[language] && 
+                    eachPart.description[language] && 
+                    eachPart.storyType[language] && 
+                    eachPart.timeToRead[language]
+                  ).length > 3 ? "View All" : ""}
                 </button>
               </div>
               <div className="mt-[10px] w-[80vw] gap-[10px] flex overflow-x-scroll scrollbar-hide">
-                {eachStory?.parts?.card.map((eachPart, index) => (
-                  <StoriesList
-                    key={eachPart.id}
-                    partNumber = {index}
-                    eachPart={eachPart}
-                    eachStory={eachStory.name[language]}
-                  />
-                ))}
+                {eachStory?.parts?.card
+                  .filter((eachPart) => 
+                    eachPart.title[language] && 
+                    eachPart.description[language] && 
+                    eachPart.storyType[language] && 
+                    eachPart.timeToRead[language]
+                  )
+                  .map((eachPart, index) => (
+                    <StoriesList
+                      key={eachPart.id}
+                      partNumber = {index}
+                      eachPart={eachPart}
+                      eachStory={eachStory.name[language]}
+                    />
+                  ))}
               </div>
             </div>
           )

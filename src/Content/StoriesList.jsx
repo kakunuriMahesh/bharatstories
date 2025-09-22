@@ -23,6 +23,11 @@ const StoriesList = (props) => {
     handleScrollToTop();
   };
 
+  // Check if the part has content in the selected language
+  if (!eachPart.title[language] || !eachPart.description[language] || !eachPart.storyType[language] || !eachPart.timeToRead[language]) {
+    return null; // Don't render if content is missing for this language
+  }
+
   return (
     // <div className="my-[10px]">
     //   <div
@@ -80,7 +85,7 @@ const StoriesList = (props) => {
                 {eachPart?.title[language]}
               </h2>
               <p className="text-sm mt-2 md:text-base">
-                {eachPart?.description[language].slice(0, 90)}...
+                {eachPart?.description[language]?.slice(0, 90)}...
               </p>
             </div>
           </div>

@@ -225,11 +225,12 @@ const Navbar = () => {
                   </button>
                   <div
                     className="bg-slate-600 w-[60px] text-center border rounded-md text-white px-[5px] py-[3px] cursor-pointer"
-                    onClick={() =>
-                      dispatch(setLanguage(language === "en" ? "te" : "en"))
-                    }
+                    onClick={() => {
+                      const nextLanguage = language === "en" ? "te" : language === "te" ? "hi" : "en";
+                      dispatch(setLanguage(nextLanguage));
+                    }}
                   >
-                    {language === "en" ? "Tel" : "Eng"}
+                    {language === "en" ? "Tel" : language === "te" ? "हिं" : "Eng"}
                   </div>
                 </div>
               </div>
@@ -303,11 +304,12 @@ const Navbar = () => {
             </button>
             <div
               className="bg-slate-600 md:w-[70px] text-center border rounded-md text-white px-[9px] py-[5px] text-[15px] cursor-pointer"
-              onClick={() =>
-                dispatch(setLanguage(language === "en" ? "te" : "en"))
-              }
+              onClick={() => {
+                const nextLanguage = language === "en" ? "te" : language === "te" ? "hi" : "en";
+                dispatch(setLanguage(nextLanguage));
+              }}
             >
-              {language === "en" ? "తెలుగు" : "English"}
+              {language === "en" ? "తెలుగు" : language === "te" ? "हिंदी" : "English"}
             </div>
           </ul>
         </div>

@@ -41,23 +41,35 @@ const ViewContent = () => {
           <h1 className=" text-white opacity-[0.9] font-extrabold text-[30px] md:text-[50px]">
             {story.name[language]}
           </h1>
-          <p>{story.parts.card.length} Parts</p>
+          <p>{story.parts.card.filter((eachPart) => 
+            eachPart.title[language] && 
+            eachPart.description[language] && 
+            eachPart.storyType[language] && 
+            eachPart.timeToRead[language]
+          ).length} Parts</p>
 
-          <p className="text-[10px] font-semibold">ENG / TEL</p>
+          <p className="text-[10px] font-semibold">ENG / TEL / HIN</p>
         </div>
       </div>
       {/* <img className="md:h-[55vh] w-full" src={story.storyCoverImage} alt="" /> */}
       <div className=" px-[20px] pb-[20px] font-sans flex items-center justify-center flex-col">
         <div className="mt-[20px] w-[90vw] flex flex-wrap gap-[10px]">
           {story.languages.includes(language) ? (
-            story.parts.card.map((eachPart, index) => (
-              <StoriesList
-                key={eachPart.id}
-                partNumber={index}
-                eachPart={eachPart}
-                eachStory={eachPart.name}
-              />
-            ))
+            story.parts.card
+              .filter((eachPart) => 
+                eachPart.title[language] && 
+                eachPart.description[language] && 
+                eachPart.storyType[language] && 
+                eachPart.timeToRead[language]
+              )
+              .map((eachPart, index) => (
+                <StoriesList
+                  key={eachPart.id}
+                  partNumber={index}
+                  eachPart={eachPart}
+                  eachStory={eachPart.name}
+                />
+              ))
           ) : (
             <p>Story not available in selected language</p>
           )}
