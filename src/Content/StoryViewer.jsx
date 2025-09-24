@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PageFlip } from "page-flip";
-// import "./StoryViewer.css";
 
 const storyContent = [
   {
@@ -151,16 +150,6 @@ const StoryViewer = () => {
     <div>
       <h1 className="mt-6 text-2xl font-bold">New Content:</h1>
     <div className="story-container">
-      {/* <div className="info">
-        <span>
-          [<span className="page-current">{currentPage + 1}</span> of{" "}
-          <span className="page-total">{pageCount}</span>]
-        </span>
-        <span>
-          State: <i className="page-state">{state}</i>, orientation:{" "}
-          <i className="page-orientation">{orientation}</i>
-        </span>
-      </div> */}
       <div className="flip-book" id="demoBookExample" ref={bookRef}>
         <div className="page page-cover page-cover-top" data-density="hard">
           <div className="page-content">

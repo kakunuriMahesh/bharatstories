@@ -33,6 +33,17 @@ const Navbar = () => {
     Eng.stories.length > 0 && Eng.stories.flatMap((each) => each.parts.card);
   const menuState = useSelector((state) => state.language.menuState);
   const language = useSelector((state) => state.language.language);
+  const changedProfile = useSelector((state) => state.profile.selected);
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const savedProfile = localStorage.getItem("selectedProfile");
+    if (savedProfile) {
+      setProfile(JSON.parse(savedProfile));
+    } else {
+      navigate("/");
+    }
+  }, [changedProfile]);
 
   const sections = [
     {
@@ -44,7 +55,13 @@ const Navbar = () => {
           alt="dharmchakra"
         />
       ),
-      path: "/home",
+      path: profile
+        ? profile.id === "toddler"
+          ? "/toddler"
+          : profile.id === "kids"
+          ? "/kids"
+          : "/home"
+        : "/",
     },
     { name: "About", icon: <Info size={32} />, path: "/about" },
     { name: "Contact", icon: <Phone size={32} />, path: "/contact" },
@@ -226,11 +243,20 @@ const Navbar = () => {
                   <div
                     className="bg-slate-600 w-[60px] text-center border rounded-md text-white px-[5px] py-[3px] cursor-pointer"
                     onClick={() => {
-                      const nextLanguage = language === "en" ? "te" : language === "te" ? "hi" : "en";
+                      const nextLanguage =
+                        language === "en"
+                          ? "te"
+                          : language === "te"
+                          ? "hi"
+                          : "en";
                       dispatch(setLanguage(nextLanguage));
                     }}
                   >
-                    {language === "en" ? "Tel" : language === "te" ? "हिं" : "Eng"}
+                    {language === "en"
+                      ? "Tel"
+                      : language === "te"
+                      ? "हिं"
+                      : "Eng"}
                   </div>
                 </div>
               </div>
@@ -238,7 +264,14 @@ const Navbar = () => {
           </div>
           <div
             onClick={() => {
-              navigate("/home");
+              // navigate("/home");
+              profile
+                ? profile.id === "toddler"
+                  ? navigate("/toddler")
+                  : profile.id === "kids"
+                  ? navigate("/kids")
+                  : navigate("/home")
+                : navigate("/");
             }}
             className="flex items-center gap-2"
           >
@@ -305,13 +338,38 @@ const Navbar = () => {
             <div
               className="bg-slate-600 md:w-[70px] text-center border rounded-md text-white px-[9px] py-[5px] text-[15px] cursor-pointer"
               onClick={() => {
-                const nextLanguage = language === "en" ? "te" : language === "te" ? "hi" : "en";
+                const nextLanguage =
+                  language === "en" ? "te" : language === "te" ? "hi" : "en";
                 dispatch(setLanguage(nextLanguage));
               }}
             >
-              {language === "en" ? "తెలుగు" : language === "te" ? "हिंदी" : "English"}
+              {language === "en"
+                ? "తెలుగు"
+                : language === "te"
+                ? "हिंदी"
+                : "English"}
             </div>
           </ul>
+          <div
+            // key={profile.id}
+            className={`flex flex-col items-center justify-center cursor-pointer`}
+            onClick={() => navigate("/profile")}
+          >
+            <div className=" rounded-full overflow-hidden border-4 border-transparent hover:border-blue-500 transition flex justify-center items-center">
+              {/* <img
+                src="https://img.icons8.com/color/96/user-male-circle.png"
+                alt="profile"
+                className="w-[60px] h-[60px] object-cover"
+              /> */}
+              {profile && (
+                <img
+                  src={profile.avatar}
+                  alt={profile.label}
+                  className="w-10 h-10 rounded-full border-2 border-blue-500"
+                />
+              )}
+            </div>
+          </div>
         </div>
         <div className="md:hidden flex items-center absolute right-2 left-2">
           {isSearchOpen && (

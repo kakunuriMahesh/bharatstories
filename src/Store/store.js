@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import languageReducer from "./languageSlice"; // Your existing slice
 import readerSettingsReducer from "./readerSettingsSlice"; // New slice
+import profileReducer from "./profileSlice";
 
 const store = configureStore({
   reducer: {
     language: languageReducer, // Existing language slice
     readerSettings: readerSettingsReducer, // New reader settings slice
+    profile: profileReducer, // New profile slice
   },
 });
 
