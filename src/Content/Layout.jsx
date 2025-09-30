@@ -71,7 +71,7 @@
 
 // export default Layout;
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Navbar from "../components/Navbar";
@@ -81,8 +81,22 @@ import { setMenuState } from "../Store/languageSlice";
 import {
   HomeBannerShimmer,
   StoryShimmer,
+  KidsShimmer,
+  ToddlerShimmer,
 } from "../components/Loading/storyShimmer";
 import ReaderControls from "./ReaderControls";
+
+// Create a context for stories
+const StoriesContext = createContext();
+
+// Custom hook to use stories context
+export const useStoriesContext = () => {
+  const context = useContext(StoriesContext);
+  if (!context) {
+    throw new Error('useStoriesContext must be used within a StoriesProvider');
+  }
+  return context;
+};
 
 const Layout = () => {
   // Existing states
@@ -140,33 +154,108 @@ const Layout = () => {
 
   // Pass stories to child components through Outlet
   const renderContent = () => {
-    if (stories.length > 0) {
+    // Show shimmer while loading (but not for ProfileSwitcher)
+    if (loading) {
+      // Get the current route to show appropriate shimmer
+      const currentPath = location.pathname;
+      
+      // Don't show shimmer for ProfileSwitcher routes
+      if (currentPath === '/' || currentPath === '/profile') {
+        return (
+          <div>
+            <Navbar />
+            <main onClick={handleMenu} className="min-h-screen pt-[100px]">
+              <Outlet
+                context={{
+                  stories,
+                  setStories,
+                  filteredStories,
+                  setFilteredStories,
+                  loading,
+                  setLoading,
+                }}
+              />
+            </main>
+            <Footer />
+          </div>
+        );
+      }
+      
+      let shimmerComponent;
+      
+      if (currentPath === '/kids') {
+        shimmerComponent = <KidsShimmer />;
+      } else if (currentPath === '/toddler') {
+        shimmerComponent = <ToddlerShimmer />;
+      } else {
+        // Default shimmer for other pages
+        shimmerComponent = (
+          <div className="mt-[10px] px-[20px] pb-[20px]">
+            <HomeBannerShimmer />
+            <div className="mt-6">
+              <StoryShimmer />
+            </div>
+          </div>
+        );
+      }
+      
       return (
         <div>
           <Navbar />
           <main onClick={handleMenu} className="min-h-screen pt-[100px]">
-            <Outlet
-              context={{
-                stories,
-                setStories,
-                filteredStories,
-                setFilteredStories,
-                loading,
-                setLoading,
-              }}
-            />
-            {firstSegment === "detailstory" ? (
-              <div className=" fixed right-4 bottom-3 z-10">
-                <ReaderControls />
-              </div>
-            ) : (
-              <></>
-            )}
+            {shimmerComponent}
           </main>
           <Footer />
         </div>
       );
     }
+
+    // Show error if there's an error
+    if (error) {
+      return (
+        <div>
+          <Navbar />
+          <main onClick={handleMenu} className="min-h-screen pt-[100px] flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-red-500 text-xl mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                Retry
+              </button>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <Navbar />
+        <main onClick={handleMenu} className="min-h-screen pt-[100px]">
+          <Outlet
+            context={{
+              stories,
+              setStories,
+              filteredStories,
+              setFilteredStories,
+              loading,
+              setLoading,
+            }}
+          />
+          {firstSegment === "detailstory" ? (
+            <div className=" fixed right-4 bottom-3 z-10">
+              <ReaderControls />
+            </div>
+          ) : (
+            <></>
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
 
     // if (error) {
     //   return <p className="text-red-500">{error}</p>;
@@ -191,9 +280,18 @@ const Layout = () => {
   };
 
   return (
-    <div className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
-      {renderContent()}
-    </div>
+    <StoriesContext.Provider value={{
+      stories,
+      setStories,
+      filteredStories,
+      setFilteredStories,
+      loading,
+      setLoading,
+    }}>
+      <div className="bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
+        {renderContent()}
+      </div>
+    </StoriesContext.Provider>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Home, Info, Phone, Search } from "lucide-react";
 import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useStoriesContext } from "../Content/Layout";
 import { Eng } from "../Utils/Elglish/EnglishScript";
 import Moon from "lucide-react/icons/moon";
 import dharmchakra from "../assets/Krishna-2/dharmchakra.jpg";
@@ -28,13 +29,81 @@ const Navbar = () => {
   const [isDark, setIsDark] = useDarkMode();
   const iconRef = useRef(null);
 
-  // console.log(stories, "storiesSearch");
-  const allTitles =
-    Eng.stories.length > 0 && Eng.stories.flatMap((each) => each.parts.card);
   const menuState = useSelector((state) => state.language.menuState);
   const language = useSelector((state) => state.language.language);
   const changedProfile = useSelector((state) => state.profile.selected);
   const [profile, setProfile] = useState(null);
+  
+  // Get stories from context
+  const { stories, filteredStories } = useStoriesContext();
+
+  // Live translation using Google Translate API
+  const [translatedText, setTranslatedText] = useState('');
+  const [isTranslating, setIsTranslating] = useState(false);
+
+  const translateText = async (text, targetLang) => {
+    if (!text.trim() || targetLang === 'en') {
+      setTranslatedText('');
+      return '';
+    }
+
+    setIsTranslating(true);
+    try {
+      // Using Google Translate API (you'll need to get an API key)
+      const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`);
+      const data = await response.json();
+      
+      if (data.responseStatus === 200 && data.responseData) {
+        const translated = data.responseData.translatedText;
+        setTranslatedText(translated);
+        return translated;
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+    } finally {
+      setIsTranslating(false);
+    }
+    
+    setTranslatedText('');
+    return '';
+  };
+
+  // Get language code for translation API
+  const getLanguageCode = () => {
+    switch (language) {
+      case 'te': return 'te'; // Telugu
+      case 'hi': return 'hi'; // Hindi
+      default: return 'en';
+    }
+  };
+
+  // Function to get searchable cards based on profile - SAME LOGIC AS KIDS.JSX
+  const getSearchableCards = () => {
+    if (!stories || stories.length === 0 || !profile) {
+      return [];
+    }
+
+    let allCards = [];
+    if (profile.id === 'kids') {
+      const kidsStories = stories.filter((s) => s.kids?.card?.length > 0);
+      allCards = kidsStories.map((story) => story.kids.card).flat();
+    } else if (profile.id === 'toddler') {
+      const toddlerStories = stories.filter((s) => s.toddler?.card?.length > 0);
+      allCards = toddlerStories.map((story) => story.toddler.card).flat();
+    } else {
+      // Adult profile
+      allCards = stories.flatMap((s) => s.parts?.card || []);
+    }
+
+    // CRITICAL: Filter cards that have content in the selected language
+    // This ensures we only show cards that actually have content in the user's language
+    return allCards.filter((card) => {
+      return card.title?.[language] && 
+             card.description?.[language] && 
+             card.storyType?.[language] && 
+             card.timeToRead?.[language];
+    });
+  };
 
   useEffect(() => {
     const savedProfile = localStorage.getItem("selectedProfile");
@@ -44,6 +113,29 @@ const Navbar = () => {
       navigate("/");
     }
   }, [changedProfile]);
+
+  // Debug useEffect to see when stories are available
+  useEffect(() => {
+    console.log("Stories updated:", stories.length);
+    console.log("Profile:", profile?.id);
+    if (stories.length > 0 && profile) {
+      const cards = getSearchableCards();
+      console.log("Available cards for search:", cards.length);
+    }
+  }, [stories, profile]);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      // Use requestAnimationFrame for better timing
+      requestAnimationFrame(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+          searchInputRef.current.select();
+        }
+      });
+    }
+  }, [isSearchOpen]);
 
   const sections = [
     {
@@ -111,7 +203,13 @@ const Navbar = () => {
     setIsSearchOpen((prev) => {
       const newState = !prev;
       if (newState) {
-        setTimeout(() => searchInputRef.current?.focus(), 0); // Focus after state update
+        // Focus the input field when opening search
+        setTimeout(() => {
+          if (searchInputRef.current) {
+            searchInputRef.current.focus();
+            searchInputRef.current.select(); // Select any existing text
+          }
+        }, 100); // Increased delay for desktop
       }
       return newState;
     }); // Toggle search visibility
@@ -147,40 +245,107 @@ const Navbar = () => {
     startY.current = null;
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = async (e) => {
     const term = e.target.value;
     setSearchTerm(term);
     dispatch(setMenuState(false));
 
     if (term.trim() === "") {
       setSuggestions([]);
+      setTranslatedText('');
       return;
     }
 
-    const filteredTitles = allTitles.filter((card) =>
-      card.title.toLowerCase().includes(term.toLowerCase())
-    );
+    // Get real cards based on profile
+    const allCards = getSearchableCards();
+    
+    // Live translate the search term
+    const targetLang = getLanguageCode();
+    const translatedTerm = await translateText(term, targetLang);
+    
+    // Filter based on search term with live translation support
+    const filteredCards = allCards.filter((card) => {
+      const searchTermLower = term.toLowerCase();
+      
+      // First priority: Search in the selected language
+      const titleInSelectedLanguage = card.title?.[language]?.toLowerCase() || '';
+      if (titleInSelectedLanguage.includes(searchTermLower)) {
+        return true;
+      }
+      
+      // Second priority: Search using live translated term
+      if (translatedTerm && titleInSelectedLanguage.includes(translatedTerm.toLowerCase())) {
+        return true;
+      }
+      
+      // Third priority: Search in other languages
+      const titleEn = card.title?.en?.toLowerCase() || '';
+      const titleTe = card.title?.te?.toLowerCase() || '';
+      const titleHi = card.title?.hi?.toLowerCase() || '';
+      
+      return titleEn.includes(searchTermLower) ||
+             titleTe.includes(searchTermLower) ||
+             titleHi.includes(searchTermLower);
+    });
 
-    setSuggestions(filteredTitles);
+    // Store the live translation separately, not in each suggestion
+    setSuggestions(filteredCards);
   };
 
-  const handleSuggestionClick = (title) => {
-    navigate(`/search/${encodeURIComponent(title)}`);
+  const handleSuggestionClick = (card) => {
+    // Navigate based on profile type
+    if (profile?.id === 'kids') {
+      navigate(`/kids/${encodeURIComponent(card.title[language] || card.title.en)}`);
+    } else if (profile?.id === 'toddler') {
+      navigate(`/toddler/${encodeURIComponent(card.title[language] || card.title.en)}`);
+    } else {
+      navigate(`/search/${encodeURIComponent(card.title[language] || card.title.en)}`);
+    }
     setSearchTerm("");
     setIsSearchOpen(false);
     setSuggestions([]);
   };
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = async (e) => {
     if (e.key === "Enter") {
-      const matchedTitle = allTitles.find(
-        (card) => card.title.toLowerCase() === searchTerm.toLowerCase()
+      // Get real cards and find exact match
+      const allCards = getSearchableCards();
+      
+      // Get live translation for the search term
+      const targetLang = getLanguageCode();
+      const translatedTerm = await translateText(searchTerm, targetLang);
+      
+      const matchedCard = allCards.find(
+        (card) => {
+          const searchTermLower = searchTerm.toLowerCase();
+          
+          // First priority: Exact match in selected language
+          if (card.title?.[language]?.toLowerCase() === searchTermLower) {
+            return true;
+          }
+          
+          // Second priority: Match with live translated term
+          if (translatedTerm && card.title?.[language]?.toLowerCase() === translatedTerm.toLowerCase()) {
+            return true;
+          }
+          
+          // Third priority: Exact match in other languages
+          return (card.title?.en?.toLowerCase() === searchTermLower) ||
+                 (card.title?.te?.toLowerCase() === searchTermLower) ||
+                 (card.title?.hi?.toLowerCase() === searchTermLower);
+        }
       );
 
-      if (matchedTitle) {
-        navigate(`/search/${encodeURIComponent(matchedTitle.title)}`);
+      if (matchedCard) {
+        // Navigate based on profile type
+        if (profile?.id === 'kids') {
+          navigate(`/kids/${encodeURIComponent(matchedCard.title[language] || matchedCard.title.en)}`);
+        } else if (profile?.id === 'toddler') {
+          navigate(`/toddler/${encodeURIComponent(matchedCard.title[language] || matchedCard.title.en)}`);
+        } else {
+          navigate(`/search/${encodeURIComponent(matchedCard.title[language] || matchedCard.title.en)}`);
+        }
       } else {
-        console.log(matchedTitle, "check notfound");
         navigate(`/not-found/${searchTerm}`);
       }
       setSearchTerm("");
@@ -287,36 +452,58 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <div className="relative flex items-center">
-            {isSearchOpen && (
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                onKeyDown={handleSearchSubmit}
-                className="text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light  pr-[45px] pl-[20px] w-[100%] h-[35px] rounded-[30px]"
-              />
-            )}
+          <div className="relative">
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchSubmit}
+              className={`text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light pr-[45px] pl-[20px] w-[300px] h-[35px] rounded-[30px] transition-all duration-200 ${
+                isSearchOpen ? 'opacity-100 visible' : 'opacity-0 invisible w-0'
+              }`}
+            />
             <div
               onClick={handleSearchIconClick}
-              className="absolute right-[12px] dark:text-text-dark text-text-light cursor-pointer"
+              className={`absolute right-[12px] top-1/2 transform -translate-y-1/2 dark:text-text-dark text-text-light cursor-pointer ${isSearchOpen ? 'right-[12px]' : ''}`}
             >
               <Search size={16} />
             </div>
-            {suggestions.length > 0 && (
-              <ul className="absolute top-12 left-0 w-full bg-white text-black shadow-md rounded-lg">
-                {suggestions.map((item, index) => (
-                  <li
-                    key={index}
-                    className="p-2 cursor-pointer hover:bg-gray-200"
-                    onClick={() => handleSuggestionClick(item.title)}
-                  >
-                    {item.title}
-                  </li>
-                ))}
-              </ul>
+            {searchTerm && (
+              <div className="absolute top-full left-0 w-[300px] bg-white text-black shadow-lg rounded-lg border border-gray-200 z-50 mt-1">
+                {translatedText && (
+                  <div className="p-2 bg-blue-50 border-b border-blue-200 rounded-t-lg">
+                    <div className="text-sm text-gray-600 font-medium">
+                      Live Translation: "{translatedText}"
+                    </div>
+                  </div>
+                )}
+                {isTranslating && (
+                  <div className="p-2 bg-gray-50 border-b border-gray-200">
+                    <div className="text-sm text-gray-500">
+                      Translating...
+                    </div>
+                  </div>
+                )}
+                {suggestions.length > 0 ? (
+                  <ul className="max-h-[300px] overflow-y-auto">
+                    {suggestions.map((item, index) => (
+                      <li
+                        key={index}
+                        className="p-2 cursor-pointer hover:bg-gray-200 border-b border-gray-100 last:border-b-0"
+                        onClick={() => handleSuggestionClick(item)}
+                      >
+                        {item.title?.[language] || item.title?.en || "Untitled"}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="p-2 text-gray-500">
+                    No results found for "{searchTerm}"
+                  </div>
+                )}
+              </div>
             )}
           </div>
           <ul className="flex items-center dark:text-text-dark text-text-light md:gap-6  md:text-sm">
@@ -372,36 +559,60 @@ const Navbar = () => {
           </div>
         </div>
         <div className="md:hidden flex items-center absolute right-2 left-2">
-          {isSearchOpen && (
-            <input
-              ref={searchInputRef}
-              placeholder="Bharat Story Books"
-              className=" text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light px-[60px] w-[100%] h-[60px] rounded-[30px]"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onKeyDown={handleSearchSubmit}
-            />
-          )}
+          <div className="relative w-full">
+            {isSearchOpen && (
+              <input
+                ref={searchInputRef}
+                placeholder="Bharat Story Books"
+                className="text-left dark:text-text-dark text-text-light bg-text-dark dark:bg-text-light px-[60px] w-full h-[60px] rounded-[30px]"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onKeyDown={handleSearchSubmit}
+              />
+            )}
 
-          <div
-            onClick={handleSearchIconClick}
-            className="absolute cursor-pointer right-[12px] dark:text-text-dark text-text-light"
-          >
-            <Search />
+            <div
+              onClick={handleSearchIconClick}
+              className="absolute cursor-pointer right-[12px] top-1/2 transform -translate-y-1/2 dark:text-text-dark text-text-light"
+            >
+              <Search />
+            </div>
+            {searchTerm && (
+              <div className="absolute top-full left-0 w-full bg-white text-black shadow-lg rounded-lg border border-gray-200 z-50 mt-1">
+                {translatedText && (
+                  <div className="p-2 bg-blue-50 border-b border-blue-200 rounded-t-lg">
+                    <div className="text-sm text-gray-600 font-medium">
+                      Live Translation: "{translatedText}"
+                    </div>
+                  </div>
+                )}
+                {isTranslating && (
+                  <div className="p-2 bg-gray-50 border-b border-gray-200">
+                    <div className="text-sm text-gray-500">
+                      Translating...
+                    </div>
+                  </div>
+                )}
+                {suggestions.length > 0 ? (
+                  <ul className="max-h-[250px] overflow-y-auto">
+                    {suggestions.map((item, index) => (
+                      <li
+                        key={index}
+                        className="p-2 cursor-pointer hover:bg-gray-200 border-b border-gray-100 last:border-b-0"
+                        onClick={() => handleSuggestionClick(item)}
+                      >
+                        {item.title?.[language] || item.title?.en || "Untitled"}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="p-2 text-gray-500">
+                    No results found for "{searchTerm}"
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-          {suggestions.length > 0 && (
-            <ul className="absolute top-12 left-0 w-full bg-white text-black shadow-md rounded-lg">
-              {suggestions.map((item, index) => (
-                <li
-                  key={index}
-                  className="p-2 cursor-pointer hover:bg-gray-200"
-                  onClick={() => handleSuggestionClick(item.title)}
-                >
-                  {item.title}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </nav>
     </div>

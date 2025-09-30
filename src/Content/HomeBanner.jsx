@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { TeEn } from "../Utils/TeEn";
@@ -12,11 +12,28 @@ import { HomeBannerShimmer } from "../components/Loading/storyShimmer";
 const HomeBanner = () => {
   const navigate = useNavigate();
   const { stories, filteredStories } = useOutletContext();
+  const [targettedStories, setTargettedStories] = useState(stories);
+  const targettedAgeGroup = useSelector((state) => state.profile.selected);
+  let getSelectedAge = localStorage.getItem("selectedProfile");
+  getSelectedAge = JSON.parse(getSelectedAge) || {};
+  useEffect(() => {
+    if (getSelectedAge.id === 'kids') {
+      // console.log("Kids stories:", stories.filter((s) => s.kids?.card?.length > 0));
+      setTargettedStories(stories.filter((s) => s.kids?.card?.length > 0));
+    } else if (getSelectedAge.id === 'toddler') {
+      // console.log("Toddler stories:", stories.filter((s) => s.toddler?.card?.length > 0));
+      setTargettedStories(stories.filter((s) => s.toddler?.card?.length > 0));
+    } else if (getSelectedAge.id === 'adult') {
+      // console.log("Adult stories:", stories);
+      setTargettedStories(stories);
+    }
+  }, [targettedAgeGroup]);
 
   const language = useSelector((state) => state.language.language);
 
-  const allTitles = stories.flatMap((each) => each.bannerImge);
-  const allNames = stories.flatMap((each) => each.name);
+  const allTitles = targettedStories.flatMap((each) => each.bannerImge);
+  const allNames = targettedStories.flatMap((each) => each.name);
+  console.log(allNames,"allTitles allNames");
 
   const handleViewAll = (storyName) => {
     navigate(`/viewstory/${storyName}`);

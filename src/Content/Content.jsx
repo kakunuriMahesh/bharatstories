@@ -51,46 +51,54 @@ const Content = () => {
       )} */}
 
       {/* All Stories */}
-      {stories.map(
-        (eachStory) =>
-          eachStory.languages.includes(language) && (
-            <div key={eachStory?.id} className="px-[20px]">
-              <div className="flex justify-between mt-[10px]">
-                <h2 className="text-[20px] font-bold">
-                  {eachStory.parts.card.length !== 0 ? eachStory?.name[language] : ""}
-                </h2>
-                <button
-                  onClick={() => handleViewAll(eachStory?.name["en"])}
-                  className="underline cursor-pointer"
-                >
-                  {eachStory.parts.card.filter((eachPart) => 
-                    eachPart.title[language] && 
-                    eachPart.description[language] && 
-                    eachPart.storyType[language] && 
-                    eachPart.timeToRead[language]
-                  ).length > 3 ? "View All" : ""}
-                </button>
-              </div>
-              <div className="mt-[10px] w-[80vw] gap-[10px] flex overflow-x-scroll scrollbar-hide">
-                {eachStory?.parts?.card
-                  .filter((eachPart) => 
-                    eachPart.title[language] && 
-                    eachPart.description[language] && 
-                    eachPart.storyType[language] && 
-                    eachPart.timeToRead[language]
-                  )
-                  .map((eachPart, index) => (
-                    <StoriesList
-                      key={eachPart.id}
-                      partNumber = {index}
-                      eachPart={eachPart}
-                      eachStory={eachStory.name[language]}
-                    />
-                  ))}
-              </div>
+      {stories
+        .filter((eachStory) => {
+          // Only show story if it has cards with content in selected language
+          return eachStory.languages.includes(language) && 
+                 eachStory.parts.card.some((eachPart) =>
+                   eachPart.title[language] &&
+                   eachPart.description[language] &&
+                   eachPart.storyType[language] &&
+                   eachPart.timeToRead[language]
+                 );
+        })
+        .map((eachStory) => (
+          <div key={eachStory?.id} className="px-[20px]">
+            <div className="flex justify-between mt-[10px]">
+              <h2 className="text-[20px] font-bold">
+                {eachStory?.name[language]}
+              </h2>
+              <button
+                onClick={() => handleViewAll(eachStory?.name["en"])}
+                className="underline cursor-pointer"
+              >
+                {eachStory.parts.card.filter((eachPart) => 
+                  eachPart.title[language] && 
+                  eachPart.description[language] && 
+                  eachPart.storyType[language] && 
+                  eachPart.timeToRead[language]
+                ).length > 3 ? "View All" : ""}
+              </button>
             </div>
-          )
-      )}
+            <div className="mt-[10px] w-[80vw] gap-[10px] flex overflow-x-scroll scrollbar-hide">
+              {eachStory?.parts?.card
+                .filter((eachPart) => 
+                  eachPart.title[language] && 
+                  eachPart.description[language] && 
+                  eachPart.storyType[language] && 
+                  eachPart.timeToRead[language]
+                )
+                .map((eachPart, index) => (
+                  <StoriesList
+                    key={eachPart.id}
+                    partNumber = {index}
+                    eachPart={eachPart}
+                    eachStory={eachStory.name[language]}
+                  />
+                ))}
+            </div>
+          </div>
+        ))}
     </div>
   );
 };

@@ -52,7 +52,7 @@ const ProfileSwitcher = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6 relative overflow-hidden">
+    <div className="flex flex-col items-center min-h-screen dark:text-text-dark p-6 relative overflow-hidden">
       <h1 className="text-3xl font-bold mb-6">Who's Watching?</h1>
 
       {/* Profile Circles */}

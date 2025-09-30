@@ -5,7 +5,9 @@ import Layout from "../Content/Layout";
 import { 
   ContentShimmer, 
   StoriesListShimmer, 
-  HomeBannerShimmer 
+  HomeBannerShimmer,
+  KidsShimmer,
+  ToddlerShimmer
 } from "../components/Loading/storyShimmer";
 import NotFound from "../components/NotFound";
 import ProfileSwitcher from "../Pages/ProfileSwitcher";
@@ -49,16 +51,10 @@ const ContactWithShimmer = () =>
   );
 
 const ToddlerWithShimmer = () =>
-  withSuspense(
-    Toddler,
-    <div className="h-screen bg-gray-200 dark:bg-gray-700 animate-pulse" />
-  );
+  withSuspense(Toddler, <ToddlerShimmer />);
 
 const KidsWithShimmer = () =>
-  withSuspense(
-    Kids,
-    <div className="h-screen bg-gray-200 dark:bg-gray-700 animate-pulse" />
-  );
+  withSuspense(Kids, <KidsShimmer />);
 
 const StoryDetail = () =>
   withSuspense(

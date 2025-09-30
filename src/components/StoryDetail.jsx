@@ -152,39 +152,39 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PageFlip } from "page-flip";
+import { Expand } from 'lucide-react';
+import { Minimize2 } from 'lucide-react';
 import sampleCovetImg from "../assets/Mahabharatha/mahabharathamCover.jpg";
 
 const StoryDetail = () => {
   const { type, cardId } = useParams();
   const { stories } = useOutletContext();
   const language = useSelector((state) => state.language.language);
-  const [mode, setMode] = useState("web"); // ✅ toggle state ("web" | "book")
+  const [mode, setMode] = useState("web"); 
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // ---- Get Card ----
   let cards = [];
   if (type === "kids") {
-    cards = stories
-      .filter((s) => s.kids?.card?.length > 0)
-      .flatMap((s) => s.kids.card);
+    cards = stories.filter((s) => s.kids?.card?.length > 0).flatMap((s) => s.kids.card);
   } else if (type === "toddler") {
-    cards = stories
-      .filter((s) => s.toddler?.card?.length > 0)
-      .flatMap((s) => s.toddler.card);
+    cards = stories.filter((s) => s.toddler?.card?.length > 0).flatMap((s) => s.toddler.card);
   }
 
-  const card = cards.find((c) => c.id === cardId);
+  // Find card by title instead of ID since we're now passing titles in the URL
+  const card = cards.find((c) => 
+    c.title?.[language] === decodeURIComponent(cardId) || 
+    c.title?.en === decodeURIComponent(cardId) ||
+    c.title?.te === decodeURIComponent(cardId) ||
+    c.title?.hi === decodeURIComponent(cardId)
+  );
+  if (!card) return <p className="text-red-500">Card not found.</p>;
 
-  if (!card) {
-    return <p className="text-red-500">Card not found.</p>;
-  }
-
-  // ---- BOOK MODE (PageFlip) ----
   const bookRef = useRef(null);
   const pageFlipRef = useRef(null);
+  const fullscreenRef = useRef(null);
 
   useEffect(() => {
     if (mode !== "book") return;
-
     if (!bookRef.current) return;
 
     pageFlipRef.current = new PageFlip(bookRef.current, {
@@ -204,17 +204,37 @@ const StoryDetail = () => {
     }
 
     return () => {
-      pageFlipRef.current?.destroy();
+      pageFlipRef?.current?.destroy();
     };
   }, [mode]);
 
-  // ---- RENDER ----
+  // --- Fullscreen Handlers ---
+  const enterFullscreen = () => {
+    if (fullscreenRef.current.requestFullscreen) {
+      fullscreenRef.current.requestFullscreen();
+    }
+  };
+
+  const exitFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
   return (
     <div className="relative max-w-4xl mx-auto p-4">
       {/* ---- Toggle Floating Button ---- */}
       <button
         onClick={() => setMode(mode === "web" ? "book" : "web")}
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition"
+        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition z-50"
       >
         {mode === "web" ? "📖 Book Mode" : "💻 Web Mode"}
       </button>
@@ -225,7 +245,6 @@ const StoryDetail = () => {
           <h1 className="text-2xl font-bold mb-2">
             {card.title?.[language] || card.title?.en || "Untitled"}
           </h1>
-
           <p className="text-gray-600 mb-4">
             {card.description?.[language] || card.description?.en || ""}
           </p>
@@ -233,15 +252,9 @@ const StoryDetail = () => {
             {card.timeToRead?.[language] || card.timeToRead?.en || ""} ·{" "}
             {card.storyType?.[language] || card.storyType?.en || ""}
           </p>
-
           {card.coverImage && (
-            <img
-              src={card.coverImage}
-              alt="cover"
-              className="w-full rounded-lg shadow mb-6"
-            />
+            <img src={card.coverImage} alt="cover" className="w-full rounded-lg shadow mb-6" />
           )}
-
           <div className="space-y-6">
             {card.partContent?.map((part, index) => (
               <div key={part.id} className="flex flex-col gap-4 items-start">
@@ -256,11 +269,7 @@ const StoryDetail = () => {
                 {part.imageUrl && (
                   <img
                     src={part.imageUrl}
-                    alt={
-                      part.headingText?.[language] ||
-                      part.oneLineText?.[language] ||
-                      ""
-                    }
+                    alt={part.headingText?.[language] || part.oneLineText?.[language] || ""}
                     className="object-cover rounded"
                   />
                 )}
@@ -270,32 +279,38 @@ const StoryDetail = () => {
         </>
       ) : (
         // ---- BOOK MODE ----
-        <div className="story-container">
+        <div ref={fullscreenRef} className="story-container relative">
+          {/* Fullscreen Toggle */}
+          <button
+            onClick={isFullscreen ? exitFullscreen : enterFullscreen}
+            className="absolute top-4 right-4 bg-gray-500 text-white px-3 py-1 rounded-md shadow-md z-50"
+          >
+            {isFullscreen ? <Minimize2 size={16} /> : <Expand size={16} />}
+          </button>
+
           <div className="flip-book" ref={bookRef}>
             {/* Cover */}
             <div className="page page-cover page-cover-top" data-density="hard">
-              {/* <div className="page-content">
-              </div> */}
               <div>
-                <div>
-                  <h1 className="text-2xl font-bold mb-2">
-                    {card.title?.[language] || card.title?.en || "Untitled"}
-                  </h1>
-
-                  <p className="text-gray-600">
-                    {card.description?.[language] || card.description?.en || ""}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {card.timeToRead?.[language] || card.timeToRead?.en || ""} ·{" "}
-                    {card.storyType?.[language] || card.storyType?.en || ""}
-                  </p>
-                </div>
-                {/* <img src={sampleCovetImg} alt="" /> */}
-                <img className="rounded-md h-[500px]" src='https://res.cloudinary.com/dwhmqaqhj/image/upload/v1745407365/Chiaroscuro_lighting_depicts_Vasudev_dark_skin_carrying_a_basket_with_baby_Krishna_walking_through_a_stormy_night._Strong_contrasts_and_deep_shadows._Lightning_illuminates_the_flooded_forest_path._Baby_Krishna_ixttrv.jpg' alt="" />
+                <h1 className="text-2xl font-bold mb-2">
+                  {card.title?.[language] || card.title?.en || "Untitled"}
+                </h1>
+                <p className="text-gray-600">
+                  {card.description?.[language] || card.description?.en || ""}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {card.timeToRead?.[language] || card.timeToRead?.en || ""} ·{" "}
+                  {card.storyType?.[language] || card.storyType?.en || ""}
+                </p>
+                <img
+                  className="rounded-md h-[500px]"
+                  src={card.thumbnailImage || sampleCovetImg}
+                  alt="cover"
+                />
               </div>
             </div>
 
-            {/* Pages from partContent */}
+            {/* Pages */}
             {card.partContent?.map((part, index) => (
               <div className="page" key={index} data-density="soft">
                 <div className="page-content">
@@ -312,9 +327,7 @@ const StoryDetail = () => {
                     ></div>
                   )}
                   <div className="page-text">
-                    {part.headingText?.[language] ||
-                      part.oneLineText?.[language] ||
-                      ""}
+                    {part.headingText?.[language] || part.oneLineText?.[language] || ""}
                   </div>
                   <div className="page-footer">{index + 2}</div>
                 </div>
@@ -322,10 +335,7 @@ const StoryDetail = () => {
             ))}
 
             {/* Back Cover */}
-            <div
-              className="page page-cover page-cover-bottom"
-              data-density="hard"
-            >
+            <div className="page page-cover page-cover-bottom" data-density="hard">
               <div className="page-content">
                 <h2>The End</h2>
               </div>
@@ -338,3 +348,4 @@ const StoryDetail = () => {
 };
 
 export default StoryDetail;
+

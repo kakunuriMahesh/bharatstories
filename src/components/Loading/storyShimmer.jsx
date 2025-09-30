@@ -123,8 +123,110 @@ const ContentShimmer = () => {
   );
 };
 
+// Kids Page Shimmer
+const KidsShimmer = () => {
+  return (
+    <div className="mt-[10px] px-[20px] pb-[20px] flex justify-center flex-col items-center">
+      {/* HomeBanner shimmer */}
+      <HomeBannerShimmer />
+      
+      {/* Kids stories shimmer */}
+      <div className="w-full max-w-7xl">
+        {[1, 2].map((_, index) => (
+          <div key={index} className="animate-pulse">
+            {/* Story title shimmer */}
+            <div className="h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+            
+            {/* Cards grid shimmer */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((_, cardIndex) => (
+                <div key={cardIndex} className="w-[260px] h-[350px] border-2 rounded-[20px]">
+                  <div className="h-[350px] bg-gray-200 dark:bg-gray-700 p-1 rounded-[20px] flex flex-col justify-between animate-pulse">
+                    <div>
+                      {/* Image shimmer */}
+                      <div className="w-full h-[150px] bg-gray-300 dark:bg-gray-600 rounded-tr-[20px] rounded-tl-[20px]"></div>
+                      
+                      {/* Story type shimmer */}
+                      <div className="mt-3 px-[10px] py-[3px]">
+                        <div className="h-4 w-20 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      </div>
+                      
+                      {/* Title and description shimmer */}
+                      <div className="p-[10px] space-y-2">
+                        <div className="h-5 w-3/4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div className="h-3 w-full bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Date and time shimmer */}
+                    <div className="px-[10px] pb-[10px]">
+                      <div className="h-4 w-32 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Toddler Page Shimmer
+const ToddlerShimmer = () => {
+  return (
+    <div className="mt-[10px] px-[20px] pb-[20px] flex justify-center flex-col items-center">
+      {/* HomeBanner shimmer */}
+      <HomeBannerShimmer />
+      
+      {/* Toddler stories shimmer */}
+      <div className="w-full max-w-7xl">
+        {[1, 2].map((_, index) => (
+          <div key={index} className="animate-pulse">
+            {/* Story title shimmer */}
+            <div className="h-8 w-64 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+            
+            {/* Cards grid shimmer */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((_, cardIndex) => (
+                <div key={cardIndex} className="w-[260px] h-[350px] border-2 rounded-[20px]">
+                  <div className="h-[350px] bg-gray-200 dark:bg-gray-700 p-1 rounded-[20px] flex flex-col justify-between animate-pulse">
+                    <div>
+                      {/* Image shimmer */}
+                      <div className="w-full h-[150px] bg-gray-300 dark:bg-gray-600 rounded-tr-[20px] rounded-tl-[20px]"></div>
+                      
+                      {/* Story type shimmer */}
+                      <div className="mt-3 px-[10px] py-[3px]">
+                        <div className="h-4 w-20 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      </div>
+                      
+                      {/* Title and description shimmer */}
+                      <div className="p-[10px] space-y-2">
+                        <div className="h-5 w-3/4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div className="h-3 w-full bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div className="h-3 w-5/6 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Date and time shimmer */}
+                    <div className="px-[10px] pb-[10px]">
+                      <div className="h-4 w-32 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Export all components
-export { StoryShimmer, StoriesListShimmer, HomeBannerShimmer, ContentShimmer };
+export { StoryShimmer, StoriesListShimmer, HomeBannerShimmer, ContentShimmer, KidsShimmer, ToddlerShimmer };
 
 // import React from "react";
 
