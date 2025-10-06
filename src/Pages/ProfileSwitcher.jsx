@@ -18,6 +18,18 @@ const profiles = [
     type: "children",
   },
   {
+    id: "child",
+    label: "Child",
+    avatar: "https://img.icons8.com/color/96/child-safe-zone.png",
+    type: "adult", // reuse adult layout/content
+  },
+  {
+    id: "teen",
+    label: "Teen",
+    avatar: "https://img.icons8.com/color/96/teenager-male.png",
+    type: "adult", // reuse adult layout/content
+  },
+  {
     id: "adult",
     label: "Adult",
     avatar: "https://img.icons8.com/color/96/user-male-circle.png",

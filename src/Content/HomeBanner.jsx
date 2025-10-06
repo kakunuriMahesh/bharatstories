@@ -23,6 +23,12 @@ const HomeBanner = () => {
     } else if (getSelectedAge.id === 'toddler') {
       // console.log("Toddler stories:", stories.filter((s) => s.toddler?.card?.length > 0));
       setTargettedStories(stories.filter((s) => s.toddler?.card?.length > 0));
+    } else if (getSelectedAge.id === 'child') {
+      // console.log("Child stories:", stories.filter((s) => s.child?.card?.length > 0));
+      setTargettedStories(stories.filter((s) => s.child?.card?.length > 0));
+    } else if (getSelectedAge.id === 'teen') {
+      // console.log("Teen stories:", stories.filter((s) => s.teen?.card?.length > 0));
+      setTargettedStories(stories.filter((s) => s.teen?.card?.length > 0));
     } else if (getSelectedAge.id === 'adult') {
       // console.log("Adult stories:", stories);
       setTargettedStories(stories);
