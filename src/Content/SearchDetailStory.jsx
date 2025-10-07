@@ -1,204 +1,10 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useParams, useOutletContext, useNavigate } from "react-router-dom";
-// import { StoryShimmer } from "../components/Loading/storyShimmer";
-// import handleScrollToTop from "../Theme/HandleSmoothScroll";
-// import YourComponent from "../components/YourComponent";
-
-// const SearchDetailStory = () => {
-//   const [story, setStory] = useState(null);
-//   const [currentStoryParts, setCurrentStoryParts] = useState([]);
-//   const [showPopup, setShowPopup] = useState(false);
-//   const [nextStoryTitle, setNextStoryTitle] = useState("");
-//   const { stories, filteredStories } = useOutletContext();
-//   const { title } = useParams();
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   const language = useSelector((state) => state.language.language);
-//   const { fontSize, theme } = useSelector((state) => state.readerSettings);
-
-//   const themeStyles = {
-//     light: { backgroundColor: "#ffffff", color: "#000000" },
-//     dark: { backgroundColor: "#1a1a1a", color: "#ffffff" },
-//     calm: { backgroundColor: "#f5f5d5", color: "#4a4a4a" },
-//   };
-
-//   const cleanName = title.startsWith(":") ? title.slice(1) : title;
-
-//   useEffect(() => {
-//     if (title && stories.length > 0) {
-//       const currentStory = stories.find((story) =>
-//         story.parts.card.some((part) =>
-//           [part.title["en"], part.title["te"], part.title["hi"]].includes(
-//             cleanName
-//           )
-//         )
-//       );
-
-//       if (currentStory) {
-//         setCurrentStoryParts(currentStory.parts.card);
-//         const currentPart = currentStory.parts.card.find((part) =>
-//           [part.title["en"], part.title["te"], part.title["hi"]].includes(
-//             cleanName
-//           )
-//         );
-//         setStory(currentPart || null);
-//       }
-//     }
-//     console.log("check iam called")
-//   }, [title, stories, cleanName]);
-
-//   const getCurrentIndex = () => {
-//     return currentStoryParts.findIndex((part) =>
-//       [part.title["en"], part.title["te"], part.title["hi"]].includes(cleanName)
-//     );
-//   };
-
-//   const handleNext = () => {
-//     const currentIndex = getCurrentIndex();
-//     if (currentIndex < currentStoryParts.length - 1) {
-//       const nextPart = currentStoryParts[currentIndex + 1];
-//       navigate(`/detailstory/${nextPart.title[language]}`);
-//       handleScrollToTop();
-//     } else {
-//       const currentStoryIndex = stories.findIndex((s) =>
-//         s.parts.card.some((p) => p.title[language] === cleanName)
-//       );
-//       if (currentStoryIndex < stories.length - 1) {
-//         const nextStory = stories[currentStoryIndex + 1];
-//         setNextStoryTitle(nextStory.parts.card[0].title[language]);
-//         setShowPopup(true);
-//       }
-//     }
-//   };
-
-//   const handlePrevious = () => {
-//     const currentIndex = getCurrentIndex();
-//     if (currentIndex > 0) {
-//       const prevPart = currentStoryParts[currentIndex - 1];
-//       navigate(`/detailstory/${prevPart.title[language]}`);
-//       handleScrollToTop();
-//     }
-//   };
-
-//   const handlePopupConfirm = () => {
-//     setShowPopup(false);
-//     navigate(`/detailstory/${nextStoryTitle}`);
-//     handleScrollToTop();
-//   };
-
-//   const isLoading = !story || currentStoryParts.length === 0;
-
-//   return (
-//     <div
-//       style={{
-//         ...themeStyles[theme],
-//         fontSize: `${fontSize}px`,
-//         padding: "20px",
-//         minHeight: "100vh",
-//       }}
-//       className="px-[20px] pb-[20px] relative"
-//     >
-//       {isLoading ? ( 
-//         <StoryShimmer />
-//       ) : story?.part ? (
-//         <div className="md:px-[50px] pb-[20px]">
-//           <div className="flex flex-col items-center justify-center p-[10px] w-[100%]">
-//             <p>{story.storyType[language]}</p>
-//             <h3 className="font-bold mb-[5px]">
-//               {story.title[language]}
-//             </h3>
-//             <img
-//               src={story.thumbnailImage}
-//               className="md:h-[450px] h-fit object-cover rounded-lg w-full"
-//               alt="thumbnail"
-//             />
-//           </div>
-
-//           {/* {story.part.map((section, index) => (
-//             <div
-//               className={`py-[10px] flex flex-col md:flex-row ${
-//                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-//               } items-center gap-6`}
-//               key={section.id}
-//             >
-//               <div className="md:w-1/2 w-full">
-//                 <img
-//                   className="w-full h-auto md:object-cover rounded-lg"
-//                   src={section.image}
-//                   alt="image"
-//                 />
-//               </div>
-
-//               <div className="md:w-1/2 w-full">
-//                 <h3 className="font-bold mb-[5px]">
-//                   {section.heading[language]}:
-//                 </h3>
-//                 <p className="mb-[15px]">{section.quote[language]}</p>
-//                 <p className="text-justify">{section.text[language]}</p>
-//               </div>
-//             </div>
-//           ))} */}
-//           <YourComponent story={story} language={language}/>
-
-//           <div className="flex justify-between mt-6">
-//             <button
-//               onClick={handlePrevious}
-//               disabled={getCurrentIndex() === 0}
-//               className="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-lg disabled:opacity-50 hover:bg-gray-400"
-//             >
-//               Previous
-//             </button>
-//             <button
-//               onClick={handleNext}
-//               className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
-//             >
-//               Next
-//             </button>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="text-center text-2xl py-[20px]">
-//           <p>Coming Soon..</p>
-//         </div>
-//       )}
-
-//       {showPopup && (
-//         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-//           <div className="bg-white p-6 rounded-lg shadow-lg">
-//             <p className="text-lg mb-4 text-black">
-//               You've reached the end of this story! Would you like to start the
-//               next story: <strong>{nextStoryTitle}</strong>?
-//             </p>
-//             <div className="flex justify-end gap-4">
-//               <button
-//                 onClick={() => setShowPopup(false)}
-//                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-//               >
-//                 No
-//               </button>
-//               <button
-//                 onClick={handlePopupConfirm}
-//                 className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
-//               >
-//                 Yes
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default SearchDetailStory;
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { StoryShimmer } from "../components/Loading/storyShimmer";
 import handleScrollToTop from "../Theme/HandleSmoothScroll";
 import YourComponent from "../components/YourComponent";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const SearchDetailStory = () => {
   const [story, setStory] = useState(null);
@@ -206,6 +12,16 @@ const SearchDetailStory = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [nextStoryTitle, setNextStoryTitle] = useState("");
   const [targettedStories, setTargettedStories] = useState([]);
+  const [availableModes, setAvailableModes] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+
+  // 🧲 Floating button state
+  const [position, setPosition] = useState({
+    x: 60,
+    y: window.innerHeight / 2,
+  });
+  const [isDragging, setIsDragging] = useState(false);
+  const [isRightSide, setIsRightSide] = useState(false);
 
   const { stories } = useOutletContext();
   const { title } = useParams();
@@ -219,6 +35,13 @@ const SearchDetailStory = () => {
   let getSelectedAge = localStorage.getItem("selectedProfile");
   getSelectedAge = JSON.parse(getSelectedAge) || {};
 
+  const modes = ["child", "teen", "adult"];
+  const [currentAgeGroup, setCurrentAgeGroup] = useState(() => {
+    let initial = getSelectedAge.id;
+    if (!modes.includes(initial)) initial = "child";
+    return initial;
+  });
+
   const themeStyles = {
     light: { backgroundColor: "#ffffff", color: "#000000" },
     dark: { backgroundColor: "#1a1a1a", color: "#ffffff" },
@@ -227,52 +50,104 @@ const SearchDetailStory = () => {
 
   const cleanName = title.startsWith(":") ? title.slice(1) : title;
 
-  // 🔎 filter stories strictly by selected profile
-  useEffect(() => {
-    if (getSelectedAge.id === "kids") {
-      setTargettedStories(stories.filter((s) => s.kids?.card?.length > 0));
-    } else if (getSelectedAge.id === "toddler") {
-      setTargettedStories(stories.filter((s) => s.toddler?.card?.length > 0));
-    } else if (getSelectedAge.id === "child") {
-      setTargettedStories(stories.filter((s) => s.child?.card?.length > 0));
-    } else if (getSelectedAge.id === "teen") {
-      setTargettedStories(stories.filter((s) => s.teen?.card?.length > 0));
-    } else if (getSelectedAge.id === "adult") {
-      setTargettedStories(stories);
-    }
-  }, [targettedAgeGroup, stories]);
+  const handleSwitchMode = (newAgeGroup) => {
+    setCurrentAgeGroup(newAgeGroup);
+    setShowMenu(false);
+    console.log("Switched to age group:", newAgeGroup);
+  };
 
-  // 🎯 load correct story based on title + profile
+  // 🧲 Drag logic for floating button
+  const handleDragStart = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+    const startX = e.clientX || e.touches?.[0]?.clientX;
+    const startY = e.clientY || e.touches?.[0]?.clientY;
+
+    const handleDragMove = (moveEvent) => {
+      const clientX = moveEvent.clientX || moveEvent.touches?.[0]?.clientX;
+      const clientY = moveEvent.clientY || moveEvent.touches?.[0]?.clientY;
+
+      setPosition({
+        x: Math.min(window.innerWidth - 40, Math.max(40, clientX)),
+        y: Math.min(window.innerHeight - 40, Math.max(40, clientY)),
+      });
+    };
+
+    const handleDragEnd = () => {
+      setIsDragging(false);
+      setIsRightSide(position.x > window.innerWidth / 2);
+      document.removeEventListener("mousemove", handleDragMove);
+      document.removeEventListener("mouseup", handleDragEnd);
+      document.removeEventListener("touchmove", handleDragMove);
+      document.removeEventListener("touchend", handleDragEnd);
+    };
+
+    document.addEventListener("mousemove", handleDragMove);
+    document.addEventListener("mouseup", handleDragEnd);
+    document.addEventListener("touchmove", handleDragMove);
+    document.addEventListener("touchend", handleDragEnd);
+  };
+
+  // Compute available modes
+  useEffect(() => {
+    if (stories && cleanName) {
+      const avail = [];
+      if (
+        stories.some((s) =>
+          s.child?.card?.some((part) =>
+            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
+          )
+        )
+      ) {
+        avail.push("child");
+      }
+      if (
+        stories.some((s) =>
+          s.teen?.card?.some((part) =>
+            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
+          )
+        )
+      ) {
+        avail.push("teen");
+      }
+      if (
+        stories.some((s) =>
+          s.parts?.card?.some((part) =>
+            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
+          )
+        )
+      ) {
+        avail.push("adult");
+      }
+      setAvailableModes(avail);
+      console.log("Available modes for title:", cleanName, avail);
+
+      if (avail.length > 0 && !avail.includes(currentAgeGroup)) {
+        setCurrentAgeGroup(avail[0]);
+      }
+    }
+  }, [stories, cleanName]);
+
+  // Filter stories by current age group
+  useEffect(() => {
+    let filteredStories = [];
+    if (currentAgeGroup === "child") {
+      filteredStories = stories.filter((s) => s.child?.card?.length > 0);
+    } else if (currentAgeGroup === "teen") {
+      filteredStories = stories.filter((s) => s.teen?.card?.length > 0);
+    } else {
+      filteredStories = stories;
+    }
+    setTargettedStories(filteredStories);
+  }, [currentAgeGroup, stories]);
+
+  // Load story based on title + age group
   useEffect(() => {
     if (title && targettedStories.length > 0) {
       let currentStory = null;
       let currentPart = null;
 
-      if (getSelectedAge.id === "kids") {
-        currentStory = targettedStories.find((s) =>
-          s.kids.card.some((part) =>
-            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
-          )
-        );
-        if (currentStory) {
-          setCurrentStoryParts(currentStory.kids.card);
-          currentPart = currentStory.kids.card.find((part) =>
-            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
-          );
-        }
-      } else if (getSelectedAge.id === "toddler") {
-        currentStory = targettedStories.find((s) =>
-          s.toddler.card.some((part) =>
-            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
-          )
-        );
-        if (currentStory) {
-          setCurrentStoryParts(currentStory.toddler.card);
-          currentPart = currentStory.toddler.card.find((part) =>
-            [part.title.en, part.title.te, part.title.hi].includes(cleanName)
-          );
-        }
-      } else if (getSelectedAge.id === "child") {
+      if (currentAgeGroup === "child") {
         currentStory = targettedStories.find((s) =>
           s.child.card.some((part) =>
             [part.title.en, part.title.te, part.title.hi].includes(cleanName)
@@ -284,7 +159,7 @@ const SearchDetailStory = () => {
             [part.title.en, part.title.te, part.title.hi].includes(cleanName)
           );
         }
-      } else if (getSelectedAge.id === "teen") {
+      } else if (currentAgeGroup === "teen") {
         currentStory = targettedStories.find((s) =>
           s.teen.card.some((part) =>
             [part.title.en, part.title.te, part.title.hi].includes(cleanName)
@@ -297,7 +172,6 @@ const SearchDetailStory = () => {
           );
         }
       } else {
-        // adult
         currentStory = targettedStories.find((s) =>
           s.parts.card.some((part) =>
             [part.title.en, part.title.te, part.title.hi].includes(cleanName)
@@ -313,7 +187,7 @@ const SearchDetailStory = () => {
 
       setStory(currentPart || null);
     }
-  }, [title, targettedStories, cleanName, getSelectedAge.id]);
+  }, [title, targettedStories, cleanName, currentAgeGroup]);
 
   const getCurrentIndex = () => {
     return currentStoryParts.findIndex((part) =>
@@ -329,14 +203,13 @@ const SearchDetailStory = () => {
       handleScrollToTop();
     } else {
       const currentStoryIndex = targettedStories.findIndex((s) =>
-        (s.kids?.card || s.toddler?.card || s.child?.card || s.teen?.card || s.parts?.card || [])
-          .some((p) => p.title[language] === cleanName)
+        (s.child?.card || s.teen?.card || s.parts?.card || []).some(
+          (p) => p.title[language] === cleanName
+        )
       );
       if (currentStoryIndex < targettedStories.length - 1) {
         const nextStory = targettedStories[currentStoryIndex + 1];
         let firstCard =
-          nextStory?.kids?.card?.[0] ||
-          nextStory?.toddler?.card?.[0] ||
           nextStory?.child?.card?.[0] ||
           nextStory?.teen?.card?.[0] ||
           nextStory?.parts?.card?.[0];
@@ -362,6 +235,7 @@ const SearchDetailStory = () => {
   };
 
   const isLoading = !story || currentStoryParts.length === 0;
+  const showFloatingButton = availableModes.length > 1;
 
   return (
     <div
@@ -373,6 +247,70 @@ const SearchDetailStory = () => {
       }}
       className="px-[20px] pb-[20px] relative"
     >
+      {/* 🧲 Draggable Floating Button */}
+      {showFloatingButton && (
+        <div
+          className="fixed z-50"
+          style={{
+            top: `${position.y}px`,
+            left: `${position.x}px`,
+            transform: "translate(-50%, -50%)",
+            transition: isDragging ? "none" : "transform 0.2s ease",
+          }}
+          onMouseDown={handleDragStart}
+          onTouchStart={handleDragStart}
+        >
+          <div
+            className={`flex items-center backdrop-blur-lg bg-[rgba(30,30,30,0.45)] border border-white/20 shadow-lg rounded-2xl transition-all duration-500 ease-in-out ${
+              isRightSide
+                ? "flex-row-reverse rounded-l-2xl"
+                : "flex-row rounded-r-2xl"
+            }`}
+          >
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(!showMenu);
+              }}
+              className="p-3 text-white hover:text-emerald-300 transition-colors cursor-pointer"
+            >
+              {isRightSide ? (
+                showMenu ? (
+                  <IoIosArrowForward size={22} />
+                ) : (
+                  <IoIosArrowBack size={22} />
+                )
+              ) : showMenu ? (
+                <IoIosArrowBack size={22} />
+              ) : (
+                <IoIosArrowForward size={22} />
+              )}
+            </button>
+
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out flex items-center ${
+                showMenu ? "w-auto opacity-100 px-2" : "w-0 opacity-0"
+              } ${isRightSide ? "flex-row-reverse" : "flex-row"}`}
+            >
+              {availableModes.map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => handleSwitchMode(mode)}
+                  className={`px-4 py-2 mx-1 rounded-lg text-sm font-medium capitalize transition-all duration-300
+                    ${
+                      currentAgeGroup === mode
+                        ? "bg-emerald-600/90 text-white shadow-md"
+                        : "bg-white/10 text-gray-100 hover:bg-white/20"
+                    }`}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {isLoading ? (
         <StoryShimmer />
       ) : story?.part ? (
@@ -387,7 +325,6 @@ const SearchDetailStory = () => {
             />
           </div>
 
-          {/* Render the sections */}
           <YourComponent story={story} language={language} />
 
           <div className="flex justify-between mt-6">
@@ -408,7 +345,7 @@ const SearchDetailStory = () => {
         </div>
       ) : (
         <div className="text-center text-2xl py-[20px]">
-          <p>There is no story on switched age group</p>
+          <p>No story found in {currentAgeGroup} age group.</p>
         </div>
       )}
 
@@ -441,311 +378,3 @@ const SearchDetailStory = () => {
 };
 
 export default SearchDetailStory;
-
-
-
-// FIXME: next and previous buttons working but popup not working
-
-// import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useParams, useOutletContext, useNavigate } from "react-router-dom";
-// import { StoryShimmer } from "../components/Loading/storyShimmer";
-
-// const SearchDetailStory = () => {
-//   const [story, setStory] = useState(null);
-//   const [allParts, setAllParts] = useState([]); // To store all parts for navigation
-//   const [showPopup, setShowPopup] = useState(false); // For next story popup
-//   const [nextStoryTitle, setNextStoryTitle] = useState(""); // Next story suggestion
-//   const { stories, filteredStories } = useOutletContext();
-//   const { title } = useParams();
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   const language = useSelector((state) => state.language.language);
-
-//   const cleanName = title.startsWith(":") ? title.slice(1) : title;
-
-//   // Fetch and set the current story and all parts
-//   useEffect(() => {
-//     if (title && stories.length > 0) {
-//       const findStoryParts = stories.flatMap((each) => each.parts.card);
-//       setAllParts(findStoryParts); // Store all parts for navigation
-
-//       const currentStory = findStoryParts.find((eachPart) => {
-//         return (
-//           eachPart.title["en"] === cleanName ||
-//           eachPart.title["te"] === cleanName ||
-//           eachPart.title["hi"] === cleanName
-//         );
-//       });
-
-//       setStory(currentStory || null);
-//     }
-//   }, [title, stories, cleanName]);
-
-//   // Helper function to find the current index
-//   const getCurrentIndex = () => {
-//     return allParts.findIndex((part) =>
-//       [part.title["en"], part.title["te"], part.title["hi"]].includes(cleanName)
-//     );
-//   };
-
-//   // Handle Next Button
-//   const handleNext = () => {
-//     const currentIndex = getCurrentIndex();
-//     if (currentIndex < allParts.length - 1) {
-//       const nextPart = allParts[currentIndex + 1];
-//       console.log(nextPart, "nextPart");
-//       navigate(`/detailstory/${nextPart.title[language]}`); // Navigate to next part using English title (or adjust as needed)
-//     } else {
-//       // If last part, suggest the next story
-//       const currentStoryIndex = stories.findIndex((s) =>
-//         s.parts.card.some((p) => p.title[language] === cleanName)
-//       );
-//       if (currentStoryIndex < stories.length - 1) {
-//         const nextStory = stories[currentStoryIndex + 1];
-//         setNextStoryTitle(nextStory.parts.card[0].title[language]); // First part of next story
-//         setShowPopup(true);
-//       }
-//     }
-//   };
-
-//   // Handle Previous Button
-//   const handlePrevious = () => {
-//     const currentIndex = getCurrentIndex();
-//     if (currentIndex > 0) {
-//       const prevPart = allParts[currentIndex - 1];
-//       navigate(`/detailstory/${prevPart.title[language]}`);
-//     }
-//   };
-
-//   // Handle Popup Confirmation
-//   const handlePopupConfirm = () => {
-//     setShowPopup(false);
-//     navigate(`/detailstory/${nextStoryTitle}`);
-//   };
-
-//   const isLoading = !story || allParts.length === 0;
-
-//   return (
-//     <div className="px-[20px] pb-[20px] relative">
-//       {isLoading ? (
-//         <StoryShimmer />
-//       ) : story?.part ? (
-//         <div className="px-[120px] pb-[20px]">
-//           <div className="flex flex-col items-center justify-center p-[10px] w-[100%]">
-//             <p className="text-[20px]">{story.storyType[language]}</p>
-//             <h3 className="font-bold md:text-3xl text-3xl mb-[5px]">
-//               {story.title[language]}
-//             </h3>
-//             <img
-//               src={story.thumbnailImage}
-//               className="md:h-[750px] h-fit object-cover rounded-lg w-full"
-//               alt="thumbnail"
-//             />
-//           </div>
-//           {story.part.map((section) => (
-//             <div className="py-[10px]" key={section.id}>
-//               <h3 className="font-bold md:text-3xl text-3xl mb-[5px]">
-//                 {section.heading[language]}:
-//               </h3>
-//               <p className="text-[20px] mb-[15px]">{section.quote[language]}</p>
-//               <div className="flex items-center justify-start">
-//                 <img
-//                   className="w-full md:object-cover h-fit md:w-[500px] rounded-lg mb-[20px]"
-//                   src={section.image}
-//                   alt="image"
-//                 />
-//               </div>
-//               <p className="text-justify text-[20px]">{section.text[language]}</p>
-//             </div>
-//           ))}
-//           {/* Navigation Buttons */}
-//           <div className="flex justify-between mt-6">
-//             <button
-//               onClick={handlePrevious}
-//               disabled={getCurrentIndex() === 0}
-//               className="px-4 py-2 bg-gray-300 rounded-lg disabled:opacity-50 hover:bg-gray-400"
-//             >
-//               Previous
-//             </button>
-//             <button
-//               onClick={handleNext}
-//               className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
-//             >
-//               Next
-//             </button>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="text-center text-2xl py-[20px]">
-//           <p>Coming Soon..</p>
-//         </div>
-//       )}
-
-//       {/* Popup for Next Story */}
-//       {showPopup && (
-//         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-//           <div className="bg-white p-6 rounded-lg shadow-lg">
-//             <p className="text-lg mb-4">
-//               You've reached the end! Would you like to start the next story: <strong>{nextStoryTitle}</strong>?
-//             </p>
-//             <div className="flex justify-end gap-4">
-//               <button
-//                 onClick={() => setShowPopup(false)}
-//                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-//               >
-//                 No
-//               </button>
-//               <button
-//                 onClick={handlePopupConfirm}
-//                 className="px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800"
-//               >
-//                 Yes
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default SearchDetailStory;
-
-// FIXME: next and previous buttons
-
-// import React, { useEffect, useState } from "react";
-// import { Eng } from "../Utils/Elglish/EnglishScript";
-// import { TeEn } from "../Utils/TeEn";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useParams, useOutletContext } from "react-router-dom";
-// import { StoryShimmer } from "../components/Loading/storyShimmer";
-
-// const SearchDetailStory = () => {
-//   const [story, setStory] = useState(null); // Set initial state to `null`
-//   const { stories, filteredStories } = useOutletContext(); // ✅ db stories are available here
-//   const { title } = useParams();
-
-//   console.log(useParams(), "chech Detail page");
-//   const dispatch = useDispatch();
-//   const language = useSelector((state) => state.language.language);
-
-//   const cleanName = title.startsWith(":") ? title.slice(1) : title;
-//   console.log(cleanName, "cleanName");
-
-//   // useEffect(() => {
-//   //   if (title) {
-//   //     // const findStory = Eng?.stories.flatMap((each) => each.parts.card);
-//   //     const findStory = stories.flatMap((each) => each.parts.card);
-
-//   //     if (findStory) {
-//   //       const set = findStory.find((eachPart) => {
-//   //         if (eachPart.title["en"] === cleanName) {
-//   //           console.log(eachPart);
-//   //           return eachPart;
-//   //         }
-//   //       });
-//   //       console.log(findStory, "find s");
-//   //       setStory(set || null); // Avoid setting `undefined`
-//   //     }
-//   //   }
-//   // }, [title]);
-
-//   useEffect(() => {
-//     if (title) {
-//       const findStory = stories.flatMap((each) => each.parts.card);
-
-//       if (findStory) {
-//         const set = findStory.find((eachPart) => {
-//           // Priority order: en -> te -> hi
-//           if (eachPart.title["en"] === cleanName) {
-//             console.log("Found match in English:", eachPart);
-//             return true;
-//           }
-//           if (eachPart.title["te"] === cleanName) {
-//             console.log("Found match in Telugu:", eachPart);
-//             return true;
-//           }
-//           if (eachPart.title["hi"] === cleanName) {
-//             console.log("Found match in Hindi:", eachPart);
-//             return true;
-//           }
-//           return false;
-//         });
-
-//         console.log(findStory, "find story parts");
-//         setStory(set || null);
-//       }
-//     }
-//   }, [title, stories, cleanName]);
-
-//   console.log(story, "story");
-//   const isLoading = !story;
-//   return (
-//     <div className="px-[20px] pb-[20px]">
-//       {isLoading ? (
-//         <StoryShimmer />
-//       ) : story?.part ? (
-//         <div className="px-[120px] pb-[20px]">
-//           <div className="flex flex-col items-center justify-center p-[10px] w-[100%]">
-//             <p className="text-[20px]">{story.storyType[language]}</p>
-//             <h3 className="font-bold md:text-3xl text-3xl mb-[5px]">{story.title[language]}</h3>
-//             <img src={story.thumbnailImage} className="md:h-[750px] h-fit object-cover rounded-lg w-full" alt="thumbnail" />
-
-//           </div>
-//           {story.part.map((section) => (
-//             <div className="py-[10px]" key={section.id}>
-//               <h3 className="font-bold md:text-3xl text-3xl mb-[5px]">
-//                 {section.heading[language]}:
-//               </h3>
-//               <p className="text-[20px] mb-[15px]">{section.quote[language]}</p>
-//               <div className="flex items-center justify-start">
-//                 <img
-//                   className="w-full md:object-cover h-fit md:w-[500px] rounded-lg mb-[20px]"
-//                   src={section.image}
-//                   alt="image"
-//                 />
-//               </div>
-//               <p className="text-justify text-[20px]">{section.text[language]}</p>
-//             </div>
-//           ))}
-//         </div>
-//       ) : (
-//         <div className="text-center text-2xl py-[20px]">
-//           <p>Coming Soon..</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-
-// };
-
-// export default SearchDetailStory;
-
-// return (
-//   <div className=" px-[20px] pb-[20px]">
-//     {story?.part ? (
-//       story.part.map((section) => (
-//         <div className="py-[10px]" key={section.id}>
-//           <h3 className="font-bold md:text-3xl text-2xl mb-[5px]">
-//             {section.heading[language]}
-//           </h3>
-//           <p className="text-lg mb-[15px]">"{section.quote[language]}"</p>
-//           <div className="flex items-center justify-start">
-//             <img
-//               className="w-full md:object-cover h-fit md:w-[500px] rounded-lg mb-[20px]"
-//               src={section.image}
-//               alt="image"
-//             />
-//           </div>
-//           <p className="text-justify">{section.text[language]}</p>
-//         </div>
-//       ))
-//     ) : (
-//       <div className="text-center text-2xl py-[20px]">
-//         <p>Coming Soon..</p>
-//       </div>
-//       // Show a fallback message
-//     )}
-//   </div>
-// );
