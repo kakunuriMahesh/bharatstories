@@ -613,6 +613,26 @@ const Navbar = () => {
               </div>
             )}
           </div>
+          <div
+            // key={profile.id}
+            className={`flex flex-col items-center justify-center cursor-pointer`}
+            onClick={() => navigate("/profile")}
+          >
+            <div className=" rounded-full overflow-hidden border-4 border-transparent hover:border-blue-500 transition flex justify-center items-center">
+              {/* <img
+                src="https://img.icons8.com/color/96/user-male-circle.png"
+                alt="profile"
+                className="w-[60px] h-[60px] object-cover"
+              /> */}
+              {profile && (
+                <img
+                  src={profile.avatar}
+                  alt={profile.label}
+                  className="w-8 h-8 rounded-full border-2 border-blue-500"
+                />
+              )}
+            </div>
+          </div>
         </div>
       </nav>
     </div>
